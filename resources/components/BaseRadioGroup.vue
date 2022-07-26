@@ -1,0 +1,44 @@
+<template>
+  <component
+    v-for="option in props.options"
+    :key="option.value"
+    :is="props.vertical ? 'div' : 'span'"
+    :class="{horizontal:!vertical}"
+  >
+    <BaseRadio
+      :label="option.label"
+      :value="option.value"
+      :name="props.name"
+      :modelValue="props.modelValue"
+      @update:modelValue="$emit('update:modelValue', $event)"
+    />
+  </component>
+</template>
+
+<script setup>
+import BaseRadio from "../components/BaseRadio.vue";
+const props = defineProps({
+  name: {
+    type: String,
+    required: true,
+  },
+  options: {
+    type: Array,
+    required: true,
+  },
+  modelValue: {
+    type: [String, Number],
+    required: true,
+  },
+  vertical: {
+    type: Boolean,
+    default: false,
+  },
+});
+</script>
+
+<style scoped>
+.horizontal {
+    margin-right:20px;
+}
+</style>
