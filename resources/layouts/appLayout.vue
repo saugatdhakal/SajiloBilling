@@ -19,6 +19,14 @@
     >
       <i class="fas fa-bars"></i>
     </button>
+    <button class="btn" @click="$router.go(-1)">
+      <i
+        class="fa-solid fa-chevron-left"
+        :style="appStates.themeDark ? 'color:white' : 'color:black'"
+        style="margin-left: 15px"
+      ></i>
+    </button>
+
     <!-- Navbar Search-->
     <form
       class="
@@ -38,7 +46,6 @@
               width="25"
               height="25"
               fill="currentColor"
-
               viewBox="0 0 16 16"
             >
               <path
@@ -59,12 +66,12 @@
         <!-- <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button> -->
       </div>
     </form>
+
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
       <li class="nav-item dropdown">
         <a
-      :style="appStates.themeDark ? 'color:white' : 'color:black'"
-
+          :style="appStates.themeDark ? 'color:white' : 'color:black'"
           class="nav-link dropdown-toggle"
           id="navbarDropdown"
           href="#"
@@ -240,13 +247,11 @@
       </nav>
     </div>
     <div id="layoutSidenav_content">
-        <!-- Body of the page -->
+      <!-- Body of the page -->
       <main>
-        <div class="container-fluid" >
-
-
-        <slot></slot>
-             </div>
+        <div class="container-fluid">
+          <slot></slot>
+        </div>
       </main>
       <footer class="py-4 bg-light mt-auto">
         <div class="container-fluid px-4">
@@ -292,6 +297,12 @@ export default {
 </script>
 
 <style>
+.nav a.router-link-exact-active {
+  color: white;
+  background: crimson;
+  padding: 15px;
+  border-radius: 5px;
+}
 .light {
   background-color: #dee4ea;
   color: black;

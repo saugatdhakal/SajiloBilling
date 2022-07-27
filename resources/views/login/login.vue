@@ -70,12 +70,13 @@
 </template>
 
 <script>
-import { reactive } from "@vue/reactivity";
+import { reactive, ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 import { authState } from "../../states/auth";
 export default {
   setup() {
     const auths = authState();
+    const flag= ref(false);
     const form = reactive({
       email: "",
       password: "",

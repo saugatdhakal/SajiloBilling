@@ -1,19 +1,24 @@
 <template>
+  <BaseCard class="mt-1" style="width: 100%; height: auto">
+    <div class="row">
+      <div class="col-12">
+        <span style="font-size: 20px">User Dashboard</span>
+      </div>
+    </div>
+  </BaseCard>
+
   <div class="row">
     <div class="col-md-12">
-      <div class="row m-2">
-        <div class="col-md-4"></div>
-        <div class="col-md-6"></div>
-        <div class="col-md-2">
-          <router-link
-            class="btn btn-outline-primary"
-            :to="{ name: 'adduser' }"
-            tag="button"
-          >
-            <i class="fa-solid fa-user-plus"></i> ADD USER</router-link
-          >
-        </div>
+      <div class="float-end m-2">
+        <router-link
+          class="btn btn-outline-primary"
+          :to="{ name: 'adduser' }"
+          tag="button"
+        >
+          <i class="fa-solid fa-user-plus"></i> ADD USER</router-link
+        >
       </div>
+
       <div v-if="loading">
         <div class="text-center">
           <div class="spinner-border" role="status">
@@ -24,7 +29,7 @@
       <div v-else>
         <table
           class="table"
-          style="border-radius: 5px"
+          style="border-radius: 5px; width: 100%"
           :style="
             appStates.themeDark
               ? 'background-color: #1f2a34;color:white;'
@@ -38,7 +43,7 @@
               <th>Email</th>
               <th>Role</th>
               <th>Register at</th>
-              <th>Edit</th>
+              <th width="20%">Edit</th>
             </tr>
           </thead>
           <tbody>
@@ -50,7 +55,7 @@
               <td>{{ user.created_at }}</td>
               <td>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="btn-group">
                     <button
                       style="width: 100%"
                       type="button"
@@ -59,14 +64,12 @@
                       data-id="{{$row->id}}"
                       data-bs-target="#change_password"
                     >
-                      <i class="fa-solid fa-key"></i> Password
+                      <i class="fa-solid fa-key"></i> Pass
                     </button>
-                  </div>
-                  <div class="col-md-4">
                     <button
                       style="width: 100%"
                       type="button"
-                      class="btn btn-success edit"
+                      class="btn btn-success btn-block edit"
                       data-bs-toggle="modal"
                       data-id="{{$row->id}}"
                       data-bs-target="#change_details"
@@ -127,20 +130,48 @@
   </div>
 </template>
 
-<script setup>
+<script>
+import BaseCard from "../../components/BaseCard.vue";
 import { ref } from "@vue/reactivity";
 import { appState } from "../../states/appState";
 import getUserList from "../../composables_api/user_api/user";
-import { onMounted, watch } from "@vue/runtime-core";
-const appStates = appState();
-const { users, error, logedUser } = getUserList();
-const loading = ref(true);
-watch(users, () => {
-    loading.value= false;
-});
-onMounted(() => {
-  logedUser();
-});
+import { inject, onMounted, watch } from "@vue/runtime-core";
+export default {
+  components: {
+    BaseCard,
+  },
+  props: ["registerFlag"],
+  setup(props) {
+    // APP states
+    const appStates = appState();
+    onMounted(async () => {
+      await logedUser();
+    });
+    //ComposablesApi
+    const { users, error, logedUser } = getUserList();
+    const loading = ref(true);
+
+    //Inject Toaster
+    const toast = inject("toast");
+
+    //Watching for loading to change states
+    watch(users, () => {
+      loading.value = false;
+    });
+
+    //Receving props(boolean) from Useradd after 200 status
+    if (props.registerFlag) {
+      toast.success("New User has been register");
+      props.registerFlag = false;
+    }
+
+    return {
+      appStates,
+      loading,
+      users,
+    };
+  },
+};
 </script>
 
 <style>

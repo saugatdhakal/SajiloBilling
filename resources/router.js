@@ -18,7 +18,9 @@ const routes = [
         component:()=> import('./views/user/user.vue'),
         meta: {
             layout: AppLayout
-        }
+        },
+        props:true
+
     },
     {
         path: '/user/adduser',

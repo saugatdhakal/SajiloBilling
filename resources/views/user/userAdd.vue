@@ -1,5 +1,4 @@
 <template>
-  {{ user }}
   <div class="row p-3">
     <div class="col-md-6">
       <form @submit.prevent="submit">
@@ -20,7 +19,7 @@
             style="width: 90%"
             v-model="email"
             type="text"
-            :error="errors.email"
+        :error="errors.email"
           />
           <BaseInput
             class="mb-3"
@@ -31,12 +30,7 @@
             type="text"
           />
           <span>Roles : </span>
-          <BaseRadioGroup
-            v-model="role"
-            :error="errors.role"
-            name="role"
-            :options="rolesGroup"
-          />
+          <BaseRadioGroup v-model="role" name="role" :options="rolesGroup" />
           <br />
           <BaseButtom type="submit">Create</BaseButtom>
         </BaseCard>
@@ -142,12 +136,14 @@ export default {
     const { value: name } = useField("name");
     const { value: role } = useField("role");
 
+
     const submit = handleSubmit((values) => {
       createUser(values);
+
     });
     watch(user, (newUser, oldUser) => {
       if (newUser.status) {
-        router.push("/user");
+        router.push({name:"user",params: {registerFlag:true}});
       }
     });
 
