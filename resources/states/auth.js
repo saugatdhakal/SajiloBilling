@@ -10,7 +10,7 @@ export const authState = defineStore('authication', {
     actions: {
         async LoginEvent(form) {
             try {
-                await axios.post('api/login', form).then((responde)=>{
+                await axios.post('api/login', form).then((responde) => {
                     if (responde.data.authorisation.token) {
                         localStorage.setItem('token', responde.data.authorisation.token);
                         this.isAuth = true;
@@ -21,12 +21,12 @@ export const authState = defineStore('authication', {
                     if (error.response) {
                         return false;
                     } else if (error.request) {
-                      return false;
+                        return false;
                     } else {
-                      return false;
+                        return false;
                     }
 
-                  });;
+                });;
 
                 ;
             } catch (error) {
@@ -45,10 +45,10 @@ export const authState = defineStore('authication', {
             }
         },
         async logout() {
-            await axios.post('api/logout','',{
-                headers:{
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-                Accept :'application/json',
+            await axios.post('api/logout', '', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    Accept: 'application/json',
                 }
             }).then(
                 (responde) => {

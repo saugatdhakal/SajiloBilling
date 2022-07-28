@@ -14,4 +14,5 @@ app.use(Toaster, {
     position: 'top-right'
 }).provide('toast', app.config.globalProperties.$toast)
 app.mount('#app');
+import "bootstrap/dist/js/bootstrap.js";
 

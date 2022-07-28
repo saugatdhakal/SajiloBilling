@@ -1,5 +1,6 @@
 import { ref } from '@vue/reactivity';
 import axios from 'axios';
+import { computed } from 'vue';
 
 
 const getlogedUser =( ) =>{
@@ -19,6 +20,11 @@ const logedUser = async()=>{
         error.value = err.message;
     })
 }
+
+// const totalAdminUsers = computed(()=>user.value.filter(user => user.isAdmin).count());
+// // const totalAdminUsers = users.filter(user => user.isAdmin).count();
+
+
 return {user,error,logedUser}
 }
 export default getlogedUser;

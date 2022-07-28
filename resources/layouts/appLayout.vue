@@ -19,6 +19,7 @@
     >
       <i class="fas fa-bars"></i>
     </button>
+    <!-- Back Button -->
     <button class="btn" @click="$router.go(-1)">
       <i
         class="fa-solid fa-chevron-left"
@@ -27,8 +28,8 @@
       ></i>
     </button>
 
-    <!-- Navbar Search-->
-    <form
+    <!-- Nav DarkMode Toggle Button-->
+    <div
       class="
         d-none d-md-inline-block
         form-inline
@@ -65,7 +66,7 @@
         <!-- <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" /> -->
         <!-- <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button> -->
       </div>
-    </form>
+    </div>
 
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -74,8 +75,8 @@
           :style="appStates.themeDark ? 'color:white' : 'color:black'"
           class="nav-link dropdown-toggle"
           id="navbarDropdown"
-          href="#"
           role="button"
+         
           data-bs-toggle="dropdown"
           aria-expanded="false"
           ><i class="fas fa-user fa-fw"></i
@@ -84,8 +85,8 @@
           class="dropdown-menu dropdown-menu-end"
           aria-labelledby="navbarDropdown"
         >
-          <li><a class="dropdown-item" href="#!">Settings</a></li>
-          <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+          <li><a class="dropdown-item">Settings</a></li>
+          <li><a class="dropdown-item">Activity Log</a></li>
           <li><hr class="dropdown-divider" /></li>
           <li><a class="dropdown-item" @click="auths.logout">Logout</a></li>
         </ul>

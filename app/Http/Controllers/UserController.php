@@ -82,7 +82,7 @@ class UserController extends Controller
 
     public function getUsers()
     {
-        return DB::table('users')->select(['id', 'name', 'email', 'created_at'])->orderBy('id', 'DESC')->get();
+        return DB::table('users')->select(['id', 'name', 'email','role', 'created_at'])->orderBy('id', 'DESC')->get();
     }
 
     public function deleteUser($id)

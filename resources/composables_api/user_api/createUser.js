@@ -21,6 +21,7 @@ const registerUser = () => {
             isLoading.value=false;
 
             error.value = err.message;
+            console.log =(error.value)
         })
     }
     return { user, error, createUser,isLoading }

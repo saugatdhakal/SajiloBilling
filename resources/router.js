@@ -2,7 +2,9 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import Login from './views/login/login.vue';
 import Home from './views/home/home.vue';
 import AppLayout from './layouts/appLayout.vue';
-import {authState} from '../resources/states/auth'
+import { authState } from '../resources/states/auth';
+
+
 const routes = [
     {
         path: '/',
@@ -15,17 +17,17 @@ const routes = [
     {
         path: '/user',
         name: 'user',
-        component:()=> import('./views/user/user.vue'),
+        component: () => import('./views/user/user.vue'),
         meta: {
             layout: AppLayout
         },
-        props:true
+        props: true
 
     },
     {
         path: '/user/adduser',
         name: 'adduser',
-        component:()=> import('./views/user/userAdd.vue'),
+        component: () => import('./views/user/userAdd.vue'), //Lazy-loading
         meta: {
             layout: AppLayout
         }
@@ -43,15 +45,45 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes
 });
-router.beforeEach(async (to) => {
-    // redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = ['/login'];
 
+// router.beforeEach((to, from, next) => {
+
+//     if (to.matched.some(record => record.meta.requiresAuth)) {
+
+//       // this route requires auth, check if logged in
+//       // if not, redirect to login page.
+//       if (!auths.isAuth) {
+//         next({
+//             name: 'login'
+//         })
+//       } else {
+//         next()
+//       }
+//     }
+//     if (to.matched.some(record => record.meta.requiresAdmin)) {
+//       // this route requires auth, check if logged in
+//       // if not, redirect to home page.
+//       if (!store.getters.loggedUser.type == 'admin') {
+//         next({
+//             name: 'home'
+//         })
+//       } else {
+//         next()
+//       }
+//     }
+//      else {
+//       next() // make sure to always call next()!
+//     }
+// })
+
+router.beforeEach(async (to) => {
+    // const auths = authState(); //State Management (Pinia)
+    const publicPages = ['/login'];
     const authRequired = !publicPages.includes(to.path);
-    const auths = authState(); //State Management
-    if (authRequired && !auths.isAuth) {
+    if (authRequired && !localStorage.getItem('token')) {
         auths.returnUrl = to.fullPath;
         return '/login';
     }
 });
+
 export default router;

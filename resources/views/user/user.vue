@@ -1,11 +1,38 @@
 <template>
-  <BaseCard class="mt-1" style="width: 100%; height: auto">
+  <!-- <BaseCard class="mt-1" style="width: 100%; height: auto">
     <div class="row">
       <div class="col-12">
         <span style="font-size: 20px">User Dashboard</span>
       </div>
     </div>
-  </BaseCard>
+  </BaseCard> -->
+<div class="text-center border-b"><h1>User Dashboard</h1></div>
+  <div class="row card-deck mt-2 mb-2 gy-2">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <BaseCard>
+        <div class="row" style="font-size: 25px; font-weight: 600">
+          <p>Total Admin Users</p>
+          <p>{{ getAdminCount }}</p>
+        </div>
+      </BaseCard>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <BaseCard>
+        <div class="row" style="font-size: 25px; font-weight: 600">
+          <p>Total Staff Users</p>
+          <p>{{getStaffCount}}</p>
+        </div>
+      </BaseCard>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <BaseCard>
+        <div class="row" style="font-size: 25px; font-weight: 600">
+          <p>Total Users</p>
+          <p>{{getTotalUserCount}}</p>
+        </div>
+      </BaseCard>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-md-12">
@@ -43,7 +70,7 @@
               <th>Email</th>
               <th>Role</th>
               <th>Register at</th>
-              <th width="20%">Edit</th>
+              <th width="12%">Edit</th>
             </tr>
           </thead>
           <tbody>
@@ -64,7 +91,7 @@
                       data-id="{{$row->id}}"
                       data-bs-target="#change_password"
                     >
-                      <i class="fa-solid fa-key"></i> Pass
+                      <i class="fa-solid fa-key"></i>
                     </button>
                     <button
                       style="width: 100%"
@@ -74,7 +101,7 @@
                       data-id="{{$row->id}}"
                       data-bs-target="#change_details"
                     >
-                      <i class="fa-solid fa-user-gear"></i> Edit
+                      <i class="fa-solid fa-user-gear"></i>
                     </button>
                   </div>
                 </div>
@@ -135,7 +162,7 @@ import BaseCard from "../../components/BaseCard.vue";
 import { ref } from "@vue/reactivity";
 import { appState } from "../../states/appState";
 import getUserList from "../../composables_api/user_api/user";
-import { inject, onMounted, watch } from "@vue/runtime-core";
+import { computed, inject, onMounted, watch } from "@vue/runtime-core";
 export default {
   components: {
     BaseCard,
@@ -148,8 +175,9 @@ export default {
       await logedUser();
     });
     //ComposablesApi
-    const { users, error, logedUser } = getUserList();
+    const { users, error, logedUser, getAdminCount,getStaffCount,getTotalUserCount } = getUserList();
     const loading = ref(true);
+    const userAdminCount = ref(0);
 
     //Inject Toaster
     const toast = inject("toast");
@@ -165,10 +193,15 @@ export default {
       props.registerFlag = false;
     }
 
+    // const totalAdminUsers = users.filter(user => user.isAdmin).count();
+
     return {
       appStates,
       loading,
       users,
+      getAdminCount,
+      getStaffCount,
+      getTotalUserCount
     };
   },
 };

@@ -76,7 +76,7 @@ import { authState } from "../../states/auth";
 export default {
   setup() {
     const auths = authState();
-    const flag= ref(false);
+    const flag = ref(false);
     const form = reactive({
       email: "",
       password: "",

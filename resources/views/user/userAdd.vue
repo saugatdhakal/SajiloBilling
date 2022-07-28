@@ -146,6 +146,7 @@ export default {
         router.push({name:"user",params: {registerFlag:true}});
       }
     });
+    
 
     return {
       submit,
