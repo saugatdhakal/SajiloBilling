@@ -15,16 +15,11 @@ const logedUser = async()=>{
         }
     }).then((resUser)=>{
         user.value=resUser.data;
-        console.log(user.value);
+        // console.log(user.value);
     }).catch((err)=>{
         error.value = err.message;
     })
 }
-
-// const totalAdminUsers = computed(()=>user.value.filter(user => user.isAdmin).count());
-// // const totalAdminUsers = users.filter(user => user.isAdmin).count();
-
-
 return {user,error,logedUser}
 }
 export default getlogedUser;

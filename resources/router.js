@@ -41,7 +41,7 @@ const routes = [
 ];
 
 const router = createRouter({
-    mode: 'history',
+
     history: createWebHashHistory(),
     routes
 });
@@ -77,11 +77,10 @@ const router = createRouter({
 // })
 
 router.beforeEach(async (to) => {
-    // const auths = authState(); //State Management (Pinia)
+
     const publicPages = ['/login'];
     const authRequired = !publicPages.includes(to.path);
     if (authRequired && !localStorage.getItem('token')) {
-        auths.returnUrl = to.fullPath;
         return '/login';
     }
 });

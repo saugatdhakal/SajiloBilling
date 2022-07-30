@@ -4,7 +4,6 @@ import root from '../layouts/app.vue';
 import router from '../router';
 import Toaster from "@meforma/vue-toaster";
 
-
 const pinia = createPinia();
 const app = createApp(root);
 

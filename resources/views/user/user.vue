@@ -1,12 +1,5 @@
 <template>
-  <!-- <BaseCard class="mt-1" style="width: 100%; height: auto">
-    <div class="row">
-      <div class="col-12">
-        <span style="font-size: 20px">User Dashboard</span>
-      </div>
-    </div>
-  </BaseCard> -->
-<div class="text-center border-b"><h1>User Dashboard</h1></div>
+  <div class="text-center border-b"><h1>User Dashboard</h1></div>
   <div class="row card-deck mt-2 mb-2 gy-2">
     <div class="col-xs-12 col-sm-6 col-md-4">
       <BaseCard>
@@ -20,7 +13,7 @@
       <BaseCard>
         <div class="row" style="font-size: 25px; font-weight: 600">
           <p>Total Staff Users</p>
-          <p>{{getStaffCount}}</p>
+          <p>{{ getStaffCount }}</p>
         </div>
       </BaseCard>
     </div>
@@ -28,7 +21,7 @@
       <BaseCard>
         <div class="row" style="font-size: 25px; font-weight: 600">
           <p>Total Users</p>
-          <p>{{getTotalUserCount}}</p>
+          <p>{{ getTotalUserCount }}</p>
         </div>
       </BaseCard>
     </div>
@@ -86,10 +79,10 @@
                     <button
                       style="width: 100%"
                       type="button"
-                      class="btn btn-primary changePassword"
+                      class="btn btn-primary"
+                      @click="modalSelectedUser(user.id)"
                       data-bs-toggle="modal"
-                      data-id="{{$row->id}}"
-                      data-bs-target="#change_password"
+                      data-bs-target="#passwordModal"
                     >
                       <i class="fa-solid fa-key"></i>
                     </button>
@@ -97,9 +90,6 @@
                       style="width: 100%"
                       type="button"
                       class="btn btn-success btn-block edit"
-                      data-bs-toggle="modal"
-                      data-id="{{$row->id}}"
-                      data-bs-target="#change_details"
                     >
                       <i class="fa-solid fa-user-gear"></i>
                     </button>
@@ -112,72 +102,149 @@
       </div>
     </div>
     <!-- Button trigger modal -->
-    <!-- <button
-      type="button"
-      class="btn btn-primary"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
-    >
-      Launch demo modal
-    </button> -->
 
-    <!-- Modal -->
-    <!-- <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
+    <!-- Password Modal -->
+    <BaseModal
+      @closeForm="clearFormInputs"
+      @submit.prevent="passwordModalSubmit"
+      modelHeader="Change User Password"
+      id="passwordModal"
+      v-model:modelToggle="modelOpen"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">...</div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div> -->
+      <template v-slot:modalBody>
+        <BaseInput
+          required
+          class="mb-3"
+          v-model="passwordModal.newPassword"
+          label="New Password"
+          type="text"
+          style="width: 90%"
+          :error="passwordModal.newPassError"
+        />
+        <BaseInput
+          required
+          class="mb-3"
+          v-model="passwordModal.repeatPassword"
+          label="Repeat New Password"
+          type="text"
+          style="width: 90%"
+          :error="passwordModal.repeatPassError"
+        />
+      </template>
+    </BaseModal>
   </div>
 </template>
 
 <script>
 import BaseCard from "../../components/BaseCard.vue";
-import { ref } from "@vue/reactivity";
+import BaseModal from "../../components/BaseModal.vue";
+import BaseInput from "../../components/BaseInput.vue";
+import { reactive, ref } from "@vue/reactivity";
 import { appState } from "../../states/appState";
 import getUserList from "../../composables_api/user_api/user";
-import { computed, inject, onMounted, watch } from "@vue/runtime-core";
+import { inject, onMounted, watch } from "@vue/runtime-core";
+import udpateUserPassword from "../../composables_api/user_api/changeUserPassword";
+
 export default {
   components: {
     BaseCard,
+    BaseModal,
+    BaseInput,
   },
   props: ["registerFlag"],
   setup(props) {
-    // APP states
+    // APP State
     const appStates = appState();
     onMounted(async () => {
       await logedUser();
     });
-    //ComposablesApi
-    const { users, error, logedUser, getAdminCount,getStaffCount,getTotalUserCount } = getUserList();
+
+    //Bootstrap Modal Toggle Component
+    const modelOpen = ref(false);
+    const openModel = () => {
+      modelOpen.value = !modelOpen.value;
+    };
+    const { user: userUpdated, setPassword } = udpateUserPassword();
+    //
+    const passwordModal = reactive({
+      newPassword: "",
+      repeatPassword: "",
+      newPassError: "",
+      repeatPassError: "",
+    });
+    function clearFormInputs() {
+      passwordModal.newPassError = "";
+      passwordModal.repeatPassError = "";
+      passwordModal.newPassword = "";
+      passwordModal.repeatPassword = "";
+    }
+    function passwordModalSubmit(event) {
+      event.target.reset();
+      const flag = validatePasswordModals();
+      if (flag) {
+        setPassword(passwordModal, selectedUserId.value);
+      }
+    }
+    //Wating for request to be fatched and assign into userUpdated
+    watch(userUpdated, () => {
+      toast.success("User password updated successfully");
+    });
+
+    const selectedUserId = ref("");
+    // Getting user id after clicking the change password button
+    function modalSelectedUser(id) {
+      selectedUserId.value = id;
+    }
+
+    function validatePasswordModals() {
+      const requiredMessage = "Please Fill Password!!";
+      const passdoesnotMatch = "Password does not match!! Try again";
+      const minLength = "min 6 digits password required";
+      if (!passwordModal.newPassword && !passwordModal.repeatPassword) {
+        passwordModal.newPassError = requiredMessage;
+        passwordModal.repeatPassError = requiredMessage;
+        return false;
+      }
+      if (!passwordModal.newPassword) {
+        passwordModal.newPassError = requiredMessage;
+        return false;
+      }
+      if (!passwordModal.repeatPassword) {
+        passwordModal.repeatPassError = requiredMessage;
+        return false;
+      }
+      if (
+        passwordModal.newPassword.length < 6 &&
+        passwordModal.repeatPassword.length < 6
+      ) {
+        passwordModal.newPassError = minLength;
+        passwordModal.repeatPassError = minLength;
+        return false;
+      }
+      //Checkin two fields is equal or not
+      if (
+        passwordModal.newPassword.trim() != passwordModal.repeatPassword.trim()
+      ) {
+        passwordModal.newPassError = passdoesnotMatch;
+        passwordModal.repeatPassError = passdoesnotMatch;
+
+        return false;
+      }
+      passwordModal.newPassError = "";
+      passwordModal.repeatPassError = "";
+      return true;
+    }
+
+    //ComposablesApi for Dashboard card and
+    const {
+      users,
+      error,
+      logedUser,
+      getAdminCount,
+      getStaffCount,
+      getTotalUserCount,
+    } = getUserList();
     const loading = ref(true);
-    const userAdminCount = ref(0);
 
     //Inject Toaster
     const toast = inject("toast");
@@ -193,19 +260,27 @@ export default {
       props.registerFlag = false;
     }
 
-    // const totalAdminUsers = users.filter(user => user.isAdmin).count();
-
     return {
       appStates,
       loading,
       users,
       getAdminCount,
       getStaffCount,
-      getTotalUserCount
+      getTotalUserCount,
+      modelOpen,
+      openModel,
+      passwordModalSubmit,
+      passwordModal,
+      clearFormInputs,
+      modalSelectedUser,
     };
   },
 };
 </script>
 
-<style>
+<style scoped>
+.errorMessage {
+  color: red;
+  font: italic;
+}
 </style>

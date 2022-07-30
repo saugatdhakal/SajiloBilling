@@ -79,10 +79,22 @@ class UserController extends Controller
     {
         return $request->user();
     }
+    public function updateUserPasswords(Request $request,$id)
+    {
+        $user = User::find($id);
+        $user->updatePasssword($request->newPassword);
+        $response =[
+            'status' => true,
+            'message' => 'Your password has been updated successfully',
+            'user' => $user,
+        ];
+        return response($response,201);
+
+    }
 
     public function getUsers()
     {
-        return DB::table('users')->select(['id', 'name', 'email','role', 'created_at'])->orderBy('id', 'DESC')->get();
+        return DB::table('users')->select(['id', 'name', 'email', 'role', 'created_at'])->orderBy('id', 'DESC')->get();
     }
 
     public function deleteUser($id)

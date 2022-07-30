@@ -15,16 +15,16 @@ const getUserList = () => {
             }
         }).then((resUser) => {
             users.value = resUser.data;
-            console.log(users.value);
+            // console.log(users.value);
         }).catch((err) => {
             error.value = err.message;
         })
     }
 
-    const getAdminCount = computed(()=>users.value.filter((user) => user.role ==='1').length );
-    const getStaffCount = computed(()=>users.value.filter((user) => user.role ==='0').length );
-    const getTotalUserCount= computed(()=>users.value.length);
+    const getAdminCount = computed(() => users.value.filter((user) => user.role === '1').length);
+    const getStaffCount = computed(() => users.value.filter((user) => user.role === '0').length);
+    const getTotalUserCount = computed(() => users.value.length);
 
-    return { users, error, logedUser,getAdminCount,getStaffCount,getTotalUserCount }
+    return { users, error, logedUser, getAdminCount, getStaffCount, getTotalUserCount }
 }
 export default getUserList;

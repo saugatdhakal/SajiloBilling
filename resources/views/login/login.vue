@@ -83,7 +83,7 @@ export default {
       credentialError: "",
     });
     const LoginEvent = () => {
-      if (!form.email && !form.password) {
+      if (!form.email || !form.password) {
         credentialError = "Please Fill your credentials";
         return false;
       }

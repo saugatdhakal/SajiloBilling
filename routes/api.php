@@ -13,11 +13,11 @@ Route::post('/login', [UserController::class, 'login'])->name('login');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/user/createUser', [UserController::class, 'createUser']);
-
-    Route::post('/logout', [UserController::class, 'logout'])->name('logoutUser');
-    Route::get('/getUsers', [UserController::class, 'getUsers'])->name('getUsers');
+    Route::post('/logout', [UserController::class, 'logout']);
+    Route::get('/getUsers', [UserController::class, 'getUsers']);
     Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser']);
     Route::get('/getUserDetail', [UserController::class, 'getUserDetail']);
+    Route::post('/user/updateUserPasswords/{id}',[UserController::class, 'updateUserPasswords']);
 });
 Route::group(['middleware' => ['auth:sanctum']], function () {
 });
