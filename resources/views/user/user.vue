@@ -63,7 +63,7 @@
               <th>Email</th>
               <th>Role</th>
               <th>Register at</th>
-              <th width="12%">Edit</th>
+              <th width="12%">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -86,13 +86,13 @@
                     >
                       <i class="fa-solid fa-key"></i>
                     </button>
-                    <button
+                    <router-link
                       style="width: 100%"
-                      type="button"
                       class="btn btn-success btn-block edit"
+                      :to="{ name: 'editUser',params: {id: user.id}}"
                     >
-                      <i class="fa-solid fa-user-gear"></i>
-                    </button>
+                      <i class="fa-solid fa-user-gear"></i
+                    ></router-link>
                   </div>
                 </div>
               </td>
@@ -151,7 +151,7 @@ export default {
     BaseModal,
     BaseInput,
   },
-  props: ["registerFlag"],
+  props: ["registerFlag","updateFlag"],
   setup(props) {
     // APP State
     const appStates = appState();
@@ -253,12 +253,19 @@ export default {
     watch(users, () => {
       loading.value = false;
     });
-
+    //For register toast
+    const registerToast =  ref(false);
+    registerToast.value = props.registerFlag;
     //Receving props(boolean) from Useradd after 200 status
-    if (props.registerFlag) {
+    if (registerToast.value ) {
       toast.success("New User has been register");
-      props.registerFlag = false;
+      registerToast.value = false;
     }
+    if (props.updateFlag ) {
+      toast.success("User has been Updated successfully");
+      props.updateFlag = false;
+    }
+
 
     return {
       appStates,

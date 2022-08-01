@@ -15,6 +15,12 @@ const routes = [
         }
     },
     {
+        path: '/login',
+        name: 'login',
+        component: Login
+    },
+    // User Pages
+    {
         path: '/user',
         name: 'user',
         component: () => import('./views/user/user.vue'),
@@ -33,11 +39,37 @@ const routes = [
         }
     },
     {
-        path: '/login',
-        name: 'login',
-        component: Login
+        path: '/user/edit/:id',
+        name: 'editUser',
+        component: () => import('./views/user/userEdit.vue'), //Lazy-loading
+        meta: {
+            layout: AppLayout
+        },
+        props: true,
+
+    },
+    // Account Pages
+    {
+        path: '/account',
+        name: 'account',
+        component: () => import('./views/account/accountIndex.vue'),
+        meta: {
+            layout: AppLayout
+        },
+        props: true
+
     },
 
+    {
+        path: '/account/create',
+        name: 'accountCreate',
+        component: () => import('./views/account/accountCreate.vue'),
+        meta: {
+            layout: AppLayout
+        },
+        props: true
+
+    },
 ];
 
 const router = createRouter({

@@ -4,8 +4,8 @@ import axios from 'axios';
 
 const registerUser = () => {
     const user = ref({})
-    const error = ref(null)
-    const isLoading = ref(false)
+    const error = ref({})
+
 
     const createUser = async (form) => {
         await axios.post('api/user/createUser', form, {
@@ -15,14 +15,12 @@ const registerUser = () => {
             }
         }).then((resUser) => {
             user.value = resUser.data;
-            isLoading.value=true;
+
             // console.log('pass', user.value);
-        }).catch((err) => {
-            isLoading.value=false;
-            error.value = err.message;
-            console.log =(error.value)
+        }).catch((resErr) => {
+            error.value = resErr.response.data;
         })
     }
-    return { user, error, createUser,isLoading }
+    return { user, error, createUser, }
 }
 export default registerUser;

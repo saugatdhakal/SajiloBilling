@@ -19,7 +19,7 @@
             {{ props.modelHeader }}
           </h5>
           <button
-            @click="    $emit('closeForm')"
+            @click="$emit('closeForm')"
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"

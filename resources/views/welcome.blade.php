@@ -10,12 +10,28 @@
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.1.1/css/all.css">
 
     @vite(['resources/css/styles.css', 'resources/js/app.js'])
+    <script>
+        window.addEventListener("DOMContentLoaded", (event) => {
+            const sidebarToggle = document.body.querySelector("#sidebarToggle");
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    document.body.classList.toggle("sb-sidenav-toggled");
+                    localStorage.setItem(
+                        "sb|sidebar-toggle",
+                        document.body.classList.contains("sb-sidenav-toggled")
+                    );
+                });
+            }
+        });
+    </script>
 </head>
 
 <body>
     <div id="app">
 
     </div>
+
 </body>
 
 </html>

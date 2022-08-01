@@ -2,7 +2,7 @@
   <button
     class="btn"
     v-bind="$attrs"
-    :class="appStates.themeDark ? 'light' : 'dark'"
+    :class="appStates.themeDark ? 'btnLight' : 'btndark'"
   >
     <slot></slot>
   </button>
@@ -13,7 +13,7 @@ import { appState } from "../states/appState";
 const appStates = appState();
 </script>
 
-<style>
+<style scoped>
 .btnLight {
   background-color: #eaebec;
   color: black;

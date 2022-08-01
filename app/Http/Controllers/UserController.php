@@ -59,6 +59,13 @@ class UserController extends Controller
     public function createUser(Request $request)
     {
         $user = new User();
+        $checkUserExites = $user->checkUserExites($request->email);
+        if ($checkUserExites) {
+            return response([
+                'status' => false,
+                'message' => 'User of that email address already exists'
+            ], 422);
+        } 
         $user->createUpdateUser($request, $user);
 
         $response = [
@@ -79,17 +86,33 @@ class UserController extends Controller
     {
         return $request->user();
     }
-    public function updateUserPasswords(Request $request,$id)
+    public function getUserDetails($id)
+    {
+        return DB::table('users')->where('id', $id)->select(['name', 'email', 'role'])->first();
+    }
+
+    public function UpdateUserDetails(Request $request, $id)
+    {
+        $user = User::find($id);
+        $user->updateUser($request);
+        $response = [
+            'status' => true,
+            'message' => 'User updated successfully',
+            'user' => $user
+        ];
+        return response($response, 201);
+    }
+
+    public function updateUserPasswords(Request $request, $id)
     {
         $user = User::find($id);
         $user->updatePasssword($request->newPassword);
-        $response =[
+        $response = [
             'status' => true,
             'message' => 'Your password has been updated successfully',
             'user' => $user,
         ];
-        return response($response,201);
-
+        return response($response, 201);
     }
 
     public function getUsers()

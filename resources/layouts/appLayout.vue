@@ -76,7 +76,6 @@
           class="nav-link dropdown-toggle"
           id="navbarDropdown"
           role="button"
-         
           data-bs-toggle="dropdown"
           aria-expanded="false"
           ><i class="fas fa-user fa-fw"></i
@@ -116,9 +115,49 @@
               class="nav-link"
               to="/user"
             >
-              <i class="fa-regular fa-user p-1"></i>
+              <i class="fa-regular fa-user p-1 fa-lg"></i>
               User</router-link
             >
+            <a
+              :style="appStates.themeDark ? 'color:white' : 'color:black'"
+              class="nav-link collapsed"
+              href="#"
+              data-bs-toggle="collapse"
+              data-bs-target="#accountBar"
+              aria-expanded="false"
+              aria-controls="collapseLayouts"
+            >
+              <div class="sb-nav-link-icon">
+                <i class="fa-regular fa-file-user p-1 fa-lg"></i>
+              </div>
+              Account
+              <div class="sb-sidenav-collapse-arrow">
+                <i class="fas fa-angle-down"></i>
+              </div>
+            </a>
+            <div
+              class="collapse"
+              id="accountBar"
+              aria-labelledby="headingOne"
+              data-bs-parent="#sidenavAccordion"
+            >
+              <nav class="sb-sidenav-menu-nested nav">
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'account' }"
+                >
+                  Account Dashboard</router-link
+                >
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'accountCreate' }"
+                >
+                  Create Account</router-link
+                >
+              </nav>
+            </div>
 
             <div class="sb-sidenav-menu-heading">Interface</div>
             <a
@@ -274,21 +313,8 @@
 import { authState } from "../states/auth";
 import { appState } from "../states/appState";
 
-window.addEventListener("DOMContentLoaded", (event) => {
-  const sidebarToggle = document.body.querySelector("#sidebarToggle");
-  if (sidebarToggle) {
-    sidebarToggle.addEventListener("click", (event) => {
-      event.preventDefault();
-      document.body.classList.toggle("sb-sidenav-toggled");
-      localStorage.setItem(
-        "sb|sidebar-toggle",
-        document.body.classList.contains("sb-sidenav-toggled")
-      );
-    });
-  }
-});
 export default {
-  setup() {
+  setup(context) {
     const appStates = appState();
     const auths = authState();
 

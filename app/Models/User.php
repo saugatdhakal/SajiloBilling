@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -45,15 +46,30 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function checkPassword($passwords) {
-       return !Hash::check($this->password, $passwords);
+    public function checkUserExites($responseEmail)
+    {
+        $user = DB::table('users')->where('email', '=', $responseEmail)->first();
+        return ($user != null) ? true : false;
     }
 
-    public function updatePasssword($passwords) {
-            $this->password = bcrypt($passwords);
-            $this->save();
-     }
+    public function checkPassword($passwords)
+    {
+        return !Hash::check($this->password, $passwords);
+    }
+
+    public function updatePasssword($passwords)
+    {
+        $this->password = bcrypt($passwords);
+        $this->save();
+    }
+
+    public function updateUser($request)
+    {
+        $this->name = $request->name;
+        $this->email = $request->email;
+        $this->role = $request->role;
+        $this->save();
+    }
 
     public static function createUpdateUser(Request $request, $user)
     {
