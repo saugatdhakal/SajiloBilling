@@ -1,18 +1,21 @@
 <template>
-  <component
-    v-for="option in props.options"
-    :key="option.value"
-    :is="props.vertical ? 'div' : 'span'"
-    :class="{horizontal:!vertical}"
-  >
-    <BaseRadio
-      :label="option.label"
-      :value="option.value"
-      :name="props.name"
-      :modelValue="props.modelValue"
-      @update:modelValue="$emit('update:modelValue', $event)"
-    />
-  </component>
+  <div>
+    <component
+      v-for="option in props.options"
+      :key="option.value"
+      :is="props.vertical ? 'div' : 'span'"
+      :class="{ horizontal: !vertical }"
+    >
+      <BaseRadio
+        
+        :label="option.label"
+        :value="option.value"
+        :name="props.name"
+        :modelValue="props.modelValue"
+        @update:modelValue="$emit('update:modelValue', $event)"
+      />
+    </component>
+  </div>
 </template>
 
 <script setup>
@@ -39,6 +42,6 @@ const props = defineProps({
 
 <style scoped>
 .horizontal {
-    margin-right:20px;
+  margin-right: 20px;
 }
 </style>

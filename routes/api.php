@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AccountController;
 
 
 
@@ -20,5 +21,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/user/updateUserPasswords/{id}',[UserController::class, 'updateUserPasswords']);
     Route::get('/user/getUserDetails/{id}', [UserController::class, 'getUserDetails']);
     Route::post('/user/UpdateUserDetails/{id}', [UserController::class, 'UpdateUserDetails']);
+
+    Route::post('/account/createAccount', [AccountController::class, 'createAccount']);
 
 });

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->enum('account_type',['BUSINESS','INDIVIDUAL']);
+            $table->enum('account_type', ['retailer', 'individual']);
             $table->string('name');
             $table->string('shop_name')->nullable();
             $table->string('address')->nullable();
@@ -23,8 +23,9 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('vat_number')->nullable()->unique();
             $table->string('pan_number')->nullable()->unique();
+            $table->string('due_limit')->default(0);
             $table->string('remark')->nullable();
-            $table->enum('status',['ACTIVE','INACTIVE']);
+            $table->enum('status', ['ACTIVE', 'INACTIVE']);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -37,7 +38,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('accounts',function(Blueprint $table){
+        Schema::table('accounts', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
     }

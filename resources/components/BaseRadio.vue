@@ -1,5 +1,5 @@
 <template>
-
+<label v-if="props.label">
 <input
   type="radio"
   :label="props.label"
@@ -8,16 +8,19 @@
   v-bind="$attrs"
   @change="$emit('update:modelValue', $event.target.value)"
   >
-  <label v-if="props.label">{{props.label}}</label>
+  {{props.label}}</label>
 
 
 </template>
 
 <script setup>
+import { required } from '../components_js/validation.js';
+
 const props = defineProps({
     label:{
         type:String,
-        define:''
+        define:'',
+        required:true
     },
     modelValue:{
         type:[String,Number],

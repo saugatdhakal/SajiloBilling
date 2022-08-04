@@ -69,6 +69,7 @@ export default {
       error: updateError,
       userUpdate,
     } = updateUserDetails();
+
     getUser(userId);
 
     const validationSchema = {

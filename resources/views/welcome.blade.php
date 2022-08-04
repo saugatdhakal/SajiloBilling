@@ -16,6 +16,7 @@
             if (sidebarToggle) {
                 sidebarToggle.addEventListener("click", (event) => {
                     event.preventDefault();
+                    console.log('1');
                     document.body.classList.toggle("sb-sidenav-toggled");
                     localStorage.setItem(
                         "sb|sidebar-toggle",

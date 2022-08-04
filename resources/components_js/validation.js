@@ -14,6 +14,15 @@ const emailValidation = (value) => {
     }
     return true;
 };
+const numberValidation = (value) => {
+    const regex = /^[0-9]*$/;
+    if (!regex.test(String(value))) {
+        return "Please enter a valid phone number";
+    }
+    return true;
+};
+
+// ^[0-9]*$
 
 const minLength = (number, value) => {
     if (String(value).length < number)
@@ -24,4 +33,4 @@ const anything = () => {
     return true;
 };
 
-export { required, emailValidation, minLength, anything };
+export { required, emailValidation,numberValidation, minLength, anything };
