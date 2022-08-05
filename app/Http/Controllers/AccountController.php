@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
+
 class AccountController extends Controller
 {
     public function createAccount(Request $request)
@@ -37,8 +39,28 @@ class AccountController extends Controller
         return response($response, 201);
     }
 
-    public function getAccounts() {
-        return DB::table('users')->get();
-    }
+    public function getAccounts(Request $request)
+    {
+        $paginateNo = $request->paginate ?  $request->paginate : 10;
+        $searchTerm = $request->q ? $request->q : '';
+        $selectedTypes = $request->selectedType ? $request->selectedType : '';
+        if ($request->paginate == '-1') {
+            $account = Account::when(
+                $selectedTypes,
+                function ($query) use ($selectedTypes) {
+                    $query->where('account_type', $selectedTypes);
+                }
+            )->search(trim($searchTerm))->paginate(1000);
+        } else {
+            $account = Account::when(
+                $selectedTypes,
+                function ($query) use ($selectedTypes) {
+                    $query->where('account_type', $selectedTypes);
+                }
+            )->search(trim($searchTerm))->paginate($paginateNo);
+        }
 
+
+        return response($account, 200);
+    }
 }

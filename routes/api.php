@@ -23,5 +23,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/user/UpdateUserDetails/{id}', [UserController::class, 'UpdateUserDetails']);
 
     Route::post('/account/createAccount', [AccountController::class, 'createAccount']);
+    Route::get('/account/getAccounts', [AccountController::class, 'getAccounts']);
 
 });

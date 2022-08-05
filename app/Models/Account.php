@@ -38,4 +38,18 @@ class Account extends Model
         }
         $this->save();
     }
+    public function scopeSearch($query, $term)
+    {
+        $term = "%$term%";
+        $query->where(function ($query) use ($term) {
+            $query->where('name', 'like', $term)
+                ->orWhere('address', 'like', $term)
+                ->orWhere('account_type', 'like', $term)
+                ->orWhere('contact_number', 'like', $term)
+                ->orWhere('email', 'like', $term)
+                ->orWhere('shop_name', 'like', $term)
+                ->orWhere('vat_number', 'like', $term)
+                ->orWhere('pan_number', 'like', $term);
+        });
+    }
 }
