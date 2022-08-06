@@ -70,6 +70,16 @@ const routes = [
         props: true
 
     },
+    {
+        path: '/account/edit/:id',
+        name: 'accountEdit',
+        component: () => import('./views/account/accountEdit.vue'),
+        meta: {
+            layout: AppLayout
+        },
+        props: true
+
+    },
 ];
 
 const router = createRouter({

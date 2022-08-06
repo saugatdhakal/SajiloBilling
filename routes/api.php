@@ -24,5 +24,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('/account/createAccount', [AccountController::class, 'createAccount']);
     Route::get('/account/getAccounts', [AccountController::class, 'getAccounts']);
+    Route::delete('/account/softDelete/{id}', [AccountController::class, 'softDeleteAccount']);
 
 });

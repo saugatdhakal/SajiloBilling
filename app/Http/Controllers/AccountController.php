@@ -41,9 +41,16 @@ class AccountController extends Controller
 
     public function getAccounts(Request $request)
     {
+        //No of Columns
         $paginateNo = $request->paginate ?  $request->paginate : 10;
+
+        //Search text
         $searchTerm = $request->q ? $request->q : '';
+
+        //Select type(ratilers)
         $selectedTypes = $request->selectedType ? $request->selectedType : '';
+
+        //if user select all columns to be shown
         if ($request->paginate == '-1') {
             $account = Account::when(
                 $selectedTypes,
@@ -59,8 +66,28 @@ class AccountController extends Controller
                 }
             )->search(trim($searchTerm))->paginate($paginateNo);
         }
-
-
         return response($account, 200);
+    }
+
+    public function softDeleteAccount($id){
+        if(!$id){
+            $response=[
+                'status' => false,
+                'message' => 'account id is required',
+            ];
+            return response($response, 400);
+        }
+        $account = Account::find($id);
+        $account->delete();
+
+        $response=[
+            'status' => true,
+            'message' => 'account has successfully been deleted',
+            'account' =>$account
+        ];
+
+        return response($response, 200);
+
+
     }
 }

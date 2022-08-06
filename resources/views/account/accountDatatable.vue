@@ -77,6 +77,7 @@
         <th>Address</th>
         <th>contact No</th>
         <th>Email</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -96,6 +97,24 @@
         <td>{{ account.address }}</td>
         <td>{{ account.contact_number }}</td>
         <td>{{ account.email }}</td>
+        <td>
+          <div class="btn-group">
+            <router-link
+              class="btn btn-primary"
+              style="width: 100%"
+              :to="{ name: 'accountEdit', params: { id: account.id } }"
+            >
+              <i class="fa-regular fa-pen-to-square fa-lg"></i>
+            </router-link>
+            <button
+              @click="deleteAccount(account.id)"
+              style="width: 100%"
+              class="btn btn-danger"
+            >
+              <i class="fa-regular fa-user-xmark fa-lg"></i>
+            </button>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -107,8 +126,9 @@
 </template>
 
 <script>
-import { onMounted, ref, watch, reactive } from "@vue/runtime-core";
+import { onMounted, ref, watch, inject } from "@vue/runtime-core";
 import accountDetails from "../../composables_api/account_api/getAccounts";
+import AccountDelete from "../../composables_api/account_api/softDeleteAccount";
 import LaravelVuePagination from "laravel-vue-pagination";
 import { appState } from "../../states/appState";
 
@@ -116,9 +136,18 @@ export default {
   components: {
     Pagination: LaravelVuePagination,
   },
-  setup() {
+  setup(props, context) {
     const { accounts, loading, getAccounts } = accountDetails(); // Composables Api
+    const {
+      deletedAccount,
+      accountError,
+      softDelete,
+    } = AccountDelete(); // Delete Composables Api
+
     const appStates = appState();
+
+    // sweet alert 2
+    const swal = inject("$swal");
 
     const search = ref("");
     const paginates = ref(10); //Per page columns
@@ -135,6 +164,39 @@ export default {
         selectedType: selectType.value,
       });
     };
+    function deleteAccount(id) {
+      swal({
+        title: "Are you sure?",
+        text: "Your Data will be temporarily deleted from the table",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        buttonsStyling: true,
+      }).then(function (isConfirm) {
+        if (isConfirm.value === true) {
+          softDelete(id);
+        }
+      });
+    }
+    watch(deletedAccount, () => {
+      //Refresh page by calling api function
+      getAccounts({
+        page: paginationPage.value,
+        paginate: paginates.value,
+        search: search.value,
+        selectedType: selectType.value,
+      });
+
+      swal({
+        position: "top-end",
+        icon: "success",
+        title: "user has been successfully deleted",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    });
     // watching Per Page select to be change
     watch(paginates, () => {
       getAccounts({
@@ -144,7 +206,6 @@ export default {
         selectedType: selectType.value,
       });
     });
-
     //Input search
     watch(search, () => {
       getAccounts({
@@ -180,6 +241,7 @@ export default {
       search,
       pageData,
       selectType,
+      deleteAccount,
     };
   },
 };
