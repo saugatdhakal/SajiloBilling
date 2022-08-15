@@ -80,6 +80,33 @@ const routes = [
         props: true
 
     },
+    {
+        path: '/account/softDelete',
+        name: 'accountSoftDelete',
+        component: () => import('./views/account/accountSoftDelete.vue'),
+        meta: {
+            layout: AppLayout
+        },
+    },
+
+    // Suppliers
+
+    {
+        path:'/supplier',
+        name:'supplier',
+        component: () => import('./views/suppliers/supplierDashboard.vue'),
+        meta:{
+            layout: AppLayout
+        }
+    },
+    {
+        path:'/supplier/create',
+        name:'supplierCreate',
+        component: () => import('./views/suppliers/supplierCreate.vue'),
+        meta:{
+            layout: AppLayout
+        }
+    }
 ];
 
 const router = createRouter({

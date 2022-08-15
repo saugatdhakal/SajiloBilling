@@ -102,6 +102,7 @@
         <div class="sb-sidenav-menu">
           <div class="nav">
             <div class="sb-sidenav-menu-heading">Core</div>
+            <!-- Dashboard -->
             <router-link
               :style="appStates.themeDark ? 'color:white' : 'color:black'"
               class="nav-link"
@@ -110,6 +111,7 @@
               <i class="fa-regular fa-grid-horizontal p-1 fa-lg"></i>
               Dashboard</router-link
             >
+            <!-- User -->
             <router-link
               :style="appStates.themeDark ? 'color:white' : 'color:black'"
               class="nav-link"
@@ -118,6 +120,7 @@
               <i class="fa-regular fa-user p-1 fa-lg"></i>
               User</router-link
             >
+            <!-- Account -->
             <a
               :style="appStates.themeDark ? 'color:white' : 'color:black'"
               class="nav-link collapsed"
@@ -155,6 +158,63 @@
                   :to="{ name: 'accountCreate' }"
                 >
                   Create Account</router-link
+                >
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'accountSoftDelete' }"
+                >
+                  Trash Account</router-link
+                >
+              </nav>
+            </div>
+
+            <!-- Suppliers -->
+            <a
+              :style="appStates.themeDark ? 'color:white' : 'color:black'"
+              class="nav-link collapsed"
+              href="#"
+              data-bs-toggle="collapse"
+              data-bs-target="#supplierBar"
+              aria-expanded="false"
+              aria-controls="collapseLayouts"
+            >
+              <div class="sb-nav-link-icon">
+                <i class="fa-regular fa-file-user p-1 fa-lg"></i>
+              </div>
+              Supplier
+              <div class="sb-sidenav-collapse-arrow">
+                <i class="fa-regular fa-angle-down"></i>
+              </div>
+            </a>
+
+            <div
+              class="collapse"
+              id="supplierBar"
+              aria-labelledby="headingOne"
+              data-bs-parent="#sidenavAccordion"
+            >
+              <nav class="sb-sidenav-menu-nested nav">
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'supplier' }"
+                >
+                 Suppier Dashboard</router-link
+                >
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'supplierCreate' }"
+                >
+                  Create Supplier</router-link
+                >
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'accountSoftDelete' }"
+                >
+                  Trash Account</router-link
                 >
               </nav>
             </div>

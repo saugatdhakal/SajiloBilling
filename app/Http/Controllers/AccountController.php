@@ -5,29 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\AccountCreateUpdateRequest;
 
 
 class AccountController extends Controller
 {
-    public function createAccount(Request $request)
+    public function createAccount(AccountCreateUpdateRequest $request)
     {
-
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'address' => 'required',
-            'contactNumber' => 'required',
-            'accountType' => 'required'
-
-        ]);
-        if ($request->accountType == 'retailer') {
-            $request->validate([
-                'vat' => 'required',
-                'pan' => 'required',
-                'shopName' => 'required'
-            ]);
-        }
-
         $account = new Account();
         $account->createUpdate($request);
         $response = [
@@ -35,10 +19,24 @@ class AccountController extends Controller
             'message' => 'Account created successfully',
             'account' => $account
         ];
+        return response($response, 201);
+    }
+
+    public function updateAccount(AccountCreateUpdateRequest $request, $id)
+    {
+        $account = Account::find($id);
+        $account->createUpdate($request);
+        $response = [
+            'status' => true,
+            'message' => 'Account Updated Successfully',
+            'account' => $account
+        ];
 
         return response($response, 201);
     }
 
+
+    //Pagination
     public function getAccounts(Request $request)
     {
         //No of Columns
@@ -69,9 +67,41 @@ class AccountController extends Controller
         return response($account, 200);
     }
 
-    public function softDeleteAccount($id){
-        if(!$id){
-            $response=[
+    public function getSoftDeleteAccounts(Request $request)
+    {
+        //No of Columns
+        $paginateNo = $request->paginate ?  $request->paginate : 10;
+
+        //Search text
+        $searchTerm = $request->q ? $request->q : '';
+
+        //Select type(ratilers)
+        $selectedTypes = $request->selectedType ? $request->selectedType : '';
+
+        //if user select all columns to be shown
+        if ($request->paginate == '-1') {
+            $account = Account::onlyTrashed()->when(
+                $selectedTypes,
+                function ($query) use ($selectedTypes) {
+                    $query->where('account_type', $selectedTypes);
+                }
+            )->search(trim($searchTerm))->paginate(1000);
+        } else {
+            $account = Account::onlyTrashed()->when(
+                $selectedTypes,
+                function ($query) use ($selectedTypes) {
+                    $query->where('account_type', $selectedTypes);
+                }
+            )->search(trim($searchTerm))->paginate($paginateNo);
+        }
+        return response($account, 200);
+    }
+
+
+    public function softDeleteAccount($id)
+    {
+        if (!$id) {
+            $response = [
                 'status' => false,
                 'message' => 'account id is required',
             ];
@@ -79,15 +109,37 @@ class AccountController extends Controller
         }
         $account = Account::find($id);
         $account->delete();
-
-        $response=[
+        $response = [
             'status' => true,
             'message' => 'account has successfully been deleted',
-            'account' =>$account
+            'account' => $account
         ];
-
         return response($response, 200);
+    }
+
+    public function forceDeleteAccount($id)
+    {
+        if (!$id) {
+            $response = [
+                'status' => false,
+                'message' => 'account id is required',
+            ];
+            return response($response, 400);
+        }
+        $account = Account::onlyTrashed()->find($id)->forceDelete();
+
+        $response = [
+            'status' => true,
+            'message' => 'account has permanently been deleted',
+            'account' => $account
+        ];
+        return response($response, 200);
+    }
 
 
+    public function getAccountDetails($id)
+    {
+        $account = Account::withTrashed()->find($id);
+        return response($account, 200);
     }
 }

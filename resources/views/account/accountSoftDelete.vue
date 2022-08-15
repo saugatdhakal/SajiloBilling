@@ -1,16 +1,8 @@
 <template>
-  <!-- Loading Div if loading true -->
-  <div v-if="loading">
-    <div class="text-center">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-  </div>
+    <h1>Account Trash Dashboard</h1>
   <div
-    v-else
     class="
-      mt-4
+      mt-2
       d-flex
       flex-row
       justify-content-between
@@ -19,7 +11,7 @@
       justify-content-center
     "
   >
-    <div class="d-flex flex-row justify-content-center ">
+    <div class="d-flex flex-row justify-content-center">
       <label for="pageNo" class="pe-2 align-middle fw-bold fs-4"
         >Per Page</label
       >
@@ -54,14 +46,14 @@
       </label>
       <input
         v-model.lazy="search"
-        type="search"
+        type="text"
         class="form-control mb-2"
         placeholder="Search Here"
       />
     </div>
   </div>
   <table
-    class="table  table-responsive"
+    class="table"
     style="border-radius: 4px; width: 100%"
     :style="
       appStates.themeDark
@@ -100,17 +92,10 @@
         <td>{{ account.email }}</td>
         <td>
           <div class="btn-group">
-            <router-link
-              class="btn btn-primary"
-              style="width: 100%"
-              :to="{ name: 'accountEdit', params: { id: account.id } }"
-            >
-              <i class="fa-regular fa-pen-to-square fa-lg"></i>
-            </router-link>
             <button
               style="width: 100%"
-              type="button"
               @click="getDetails(account.id)"
+              type="button"
               class="btn btn-success"
               data-bs-toggle="modal"
               data-bs-target="#showAccountDetails"
@@ -118,8 +103,8 @@
               <i class="fa-regular fa-eye fa-lg"></i>
             </button>
             <button
-              @click="deleteAccount(account.id)"
               style="width: 100%"
+              @click="deleteAccount(account.id)"
               class="btn btn-danger"
             >
               <i class="fa-regular fa-user-xmark fa-lg"></i>
@@ -146,6 +131,7 @@
     </div>
   </div>
 
+  <!-- Bootstrap Modal -->
   <BaseModal
     modelHeader="Show Account Details"
     id="showAccountDetails"
@@ -193,66 +179,45 @@
 </template>
 
 <script>
-import { onMounted, ref, watch, inject, reactive } from "@vue/runtime-core";
-import accountDetails from "../../composables_api/account_api/getAccounts";
-import AccountDelete from "../../composables_api/account_api/softDeleteAccount";
-import getAccountDetails from "../../composables_api/account_api/getAccountDetails";
-
+import { onMounted, ref, watch, inject } from "@vue/runtime-core";
 import LaravelVuePagination from "laravel-vue-pagination";
 import { appState } from "../../states/appState";
 import BaseModal from "../../components/BaseModal.vue";
+import getSoftDeleteAccounts from "../../composables_api/account_api/getSoftDeleteAccount";
+import getAccountDetails from "../../composables_api/account_api/getAccountDetails";
+import forceDeleteAccounts from "../../composables_api/account_api/forceDeleteAccount";
 
 export default {
   components: {
     Pagination: LaravelVuePagination,
     BaseModal,
   },
-  setup(props, context) {
-    const { accounts, loading, getAccounts } = accountDetails(); // Composables Api
-    const { deletedAccount, accountError, softDelete } = AccountDelete(); // Delete Composables Api
+  setup(props) {
+    const appStates = appState();
+    const { accounts, accountError, getAccounts } = getSoftDeleteAccounts();
+    const {
+      deletedAccount,
+      accountError: deleteAccountError,
+      deleteAcc,
+    } = forceDeleteAccounts();
     const {
       account: accountViewData,
       accountError: viewAccError,
       getDetails,
     } = getAccountDetails(); // get specific account details
 
-    const appStates = appState();
-
-    // sweet alert 2
-    const swal = inject("$swal");
-
     const search = ref("");
     const paginates = ref(10); //Per page columns
     const paginationPage = ref(1); //Page Number
     const selectType = ref("");
 
-    //Function get the page number and pass to getAccounts(composables api)
-    const pageData = (page = 1) => {
-      paginationPage.value = page;
-      getAccounts({
-        page: paginationPage.value,
-        paginate: paginates.value,
-        search: search.value,
-        selectedType: selectType.value,
-      });
-    };
-    const viewedAccounts = reactive({
-      email: "",
-      name: "",
-      accountType: "retailer",
-      address: "",
-      shopName: "",
-      contactNumber: "",
-      vat: "",
-      pan: "",
-      dueLimit: "",
-    });
-    //view button of table
+    // sweet alert 2
+    const swal = inject("$swal");
 
     function deleteAccount(id) {
       swal({
         title: "Are you sure?",
-        text: "Your Data will be temporarily deleted from the table",
+        text: "Your Data will be Permanently deleted from the table",
         showCancelButton: true,
         confirmButtonColor: "#3084d6",
         cancelButtonColor: "#d33",
@@ -261,27 +226,12 @@ export default {
         buttonsStyling: true,
       }).then(function (isConfirm) {
         if (isConfirm.value === true) {
-          softDelete(id);
+          deleteAcc(id);
+          pageData();
         }
       });
     }
-    watch(deletedAccount, () => {
-      //Refresh page by calling api function
-      getAccounts({
-        page: paginationPage.value,
-        paginate: paginates.value,
-        search: search.value,
-        selectedType: selectType.value,
-      });
 
-      swal({
-        position: "top-end",
-        icon: "success",
-        title: "user has been successfully deleted",
-        showConfirmButton: false,
-        timer: 1400,
-      });
-    });
     // watching Per Page select to be change
     watch(paginates, () => {
       getAccounts({
@@ -309,6 +259,15 @@ export default {
       });
     });
 
+    const pageData = (page = 1) => {
+      paginationPage.value = page;
+      getAccounts({
+        page: paginationPage.value,
+        paginate: paginates.value,
+        search: search.value,
+        selectedType: selectType.value,
+      });
+    };
     onMounted(() => {
       getAccounts({
         page: paginationPage.value,
@@ -317,32 +276,21 @@ export default {
         selectedType: selectType.value,
       });
     });
-
     return {
-      accounts,
-      loading,
       appStates,
+      accounts,
+      pageData,
+      accountViewData,
+      getDetails,
+      deleteAccount,
       paginates,
       search,
       pageData,
-      selectType,
-      deleteAccount,
-      getDetails,
-      accountViewData,
+      selectType
     };
   },
 };
 </script>
 
 <style>
-.page-item.active .page-link,
-.page-item.active .dataTable-pagination a,
-.dataTable-pagination .page-item.active a,
-.dataTable-pagination li.active .page-link,
-.dataTable-pagination li.active a {
-  z-index: 3;
-  color: #fff;
-  background-color: #1f2a34;
-  border-color: #f8f9fa;
-}
 </style>

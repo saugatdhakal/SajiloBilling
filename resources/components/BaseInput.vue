@@ -1,7 +1,7 @@
   <!-- If parent component want to set classes or style or type of the
   input then the v-bind=$attrs will receive the attrs -->
 <template>
-  <label :for="uuid">{{ props.label }}</label>
+  <label :for="uuid">{{ props.label }} <span class="requireStar" v-if="props.require">*</span></label>
   <input
     :id="uuid"
     aria-de
@@ -40,6 +40,10 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  require:{
+    type:Boolean,
+    default:false
+  }
 });
 </script>
 
@@ -48,5 +52,8 @@ label {
   padding-left: 7px;
   font-size: larger;
   margin-bottom: 3px;
+}
+.requireStar{
+    color:red
 }
 </style>

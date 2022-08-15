@@ -18,5 +18,7 @@ app.use(Toaster, {
 router.isReady().then(() => {
     app.mount('#app');
 })
+
+
 import "bootstrap/dist/js/bootstrap.js"
 

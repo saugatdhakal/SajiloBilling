@@ -3,7 +3,9 @@
     <div class="col-md-6 col-lg-6 col-sm-12">
       <form @submit.prevent="submit">
         <BaseCard>
-          <h3 class="mb-3">Create Account</h3>
+          <h3 class="mb-3 text-center border border-2 rounded p-2">
+            Create Account
+          </h3>
           <div class="d-flex flex-row align-items-*-center">
             <span style="margin-right: 20px; font-size: 20px"
               >Account Type :
@@ -72,7 +74,6 @@
             type="number"
             v-model="formData.contactNumber"
             min="0"
-            oninput="this.value = Math.abs(this.value)"
             label="Contact Number"
           ></BaseInput>
           <span
@@ -87,7 +88,6 @@
               <BaseInput
                 type="number"
                 min="0"
-                oninput="this.value = Math.abs(this.value)"
                 class="mb-3 mx-2"
                 v-model="formData.vat"
                 label="VAT"
@@ -103,7 +103,6 @@
                 type="number"
                 class="mb-3 mx-2"
                 min="0"
-                oninput="this.value = Math.abs(this.value)"
                 v-model="formData.pan"
                 label="PAN"
               ></BaseInput>
@@ -121,7 +120,6 @@
             class="mb-3"
             min="0"
             type="number"
-            oninput="this.value = Math.abs(this.value)"
             v-model="formData.dueLimit"
             label="Due limit"
           ></BaseInput>
@@ -134,6 +132,9 @@
           >
 
           <BaseButton class="mt-2" type="submit">Create</BaseButton>
+          <RouterLink class="btn btn-danger mt-2" to="/account"
+            >Cancle
+          </RouterLink>
         </BaseCard>
       </form>
     </div>
@@ -147,7 +148,13 @@ import BaseInput from "../../components/BaseInput.vue";
 import BaseRadioGroup from "../../components/BaseRadioGroup.vue";
 import { reactive } from "@vue/reactivity";
 import useVuelidate from "@vuelidate/core";
-import { required, requiredIf, email, minLength,maxLength } from "@vuelidate/validators";
+import {
+  required,
+  requiredIf,
+  email,
+  minLength,
+  maxLength,
+} from "@vuelidate/validators";
 import registerAccount from "../../composables_api/account_api/createAccount";
 import router from "../../router";
 import { watch, inject } from "@vue/runtime-core";
@@ -185,20 +192,24 @@ export default {
           formData.accountType == "retailer" ? true : false
         ),
       },
-      contactNumber: { required, minLength: minLength(10) ,maxLength: maxLength(10) },
+      contactNumber: {
+        required,
+        minLength: minLength(10),
+        maxLength: maxLength(10),
+      },
       vat: {
+        required: requiredIf(() =>
+          formData.accountType == "retailer" && !formData.pan ? true : false
+        ),
         minLength: minLength(8),
         maxLength: maxLength(8),
-        required: requiredIf(() =>
-          formData.accountType == "retailer" ? true : false
-        ),
       },
       pan: {
+        required: requiredIf(() =>
+          formData.accountType == "retailer" && !formData.vat ? true : false
+        ),
         minLength: minLength(8),
         maxLength: maxLength(8),
-        required: requiredIf(() =>
-          formData.accountType == "retailer" ? true : false
-        ),
       },
       dueLimit: { required },
     };
@@ -220,7 +231,6 @@ export default {
       );
     });
     watch(account, () => {
-
       router.push({ name: "account", params: { createFlag: true } });
     });
     return {
@@ -233,9 +243,3 @@ export default {
 };
 </script>
 
-<style>
-.errorMsg {
-  color: red;
-  margin-bottom: 5px;
-}
-</style>

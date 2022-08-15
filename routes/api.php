@@ -4,8 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
-
-
+use App\Http\Controllers\SupplierController;
 
 //Public Routes
 Route::post('/registeruser', [UserController::class, 'register'])->name('registerUser');
@@ -22,8 +21,26 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/getUserDetails/{id}', [UserController::class, 'getUserDetails']);
     Route::post('/user/UpdateUserDetails/{id}', [UserController::class, 'UpdateUserDetails']);
 
-    Route::post('/account/createAccount', [AccountController::class, 'createAccount']);
-    Route::get('/account/getAccounts', [AccountController::class, 'getAccounts']);
-    Route::delete('/account/softDelete/{id}', [AccountController::class, 'softDeleteAccount']);
+
+
+    Route::controller(AccountController::class)
+    ->prefix('account')
+    ->group(function () {
+        Route::post('/createAccount',  'createAccount');
+        Route::get('/getAccounts',  'getAccounts');
+        Route::delete('/softDelete/{id}',  'softDeleteAccount');
+        Route::get('/getAccountDetails/{id}',  'getAccountDetails');
+        Route::post('/updateAccount/{id}',  'updateAccount');
+        Route::get('/softDeletes',  'getSoftDeleteAccounts');
+        Route::delete('/forceDeleteAccount/{id}',  'forceDeleteAccount');
+    });
+
+    Route::controller(SupplierController::class)
+    ->prefix('supplier')
+    ->group(function () {
+            Route::post('/supplierCreate','create');
+            Route::get('/supplierDeatils','getSupplierDeatils');
+
+    });
 
 });

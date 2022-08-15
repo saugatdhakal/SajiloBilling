@@ -2,7 +2,7 @@
   <div
     class="modal fade"
     :id="modelId"
-    data-bs-backdrop="static"
+    :data-bs-backdrop="props.dropBack? null:'static'"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
@@ -30,7 +30,7 @@
           <div class="modal-body">
             <slot name="modalBody"> </slot>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer" v-if="props.footerButton">
             <button
               @click="$emit('closeForm')"
               type="button"
@@ -58,8 +58,17 @@ const props = defineProps({
     define: "",
   },
   modelToggle: {
-    required: true,
+
   },
+  footerButton: {
+    type: Boolean,
+    default: true,
+  },
+  //Weather model should be close or not after clicking away
+  dropBack:{
+    type: Boolean,
+    default:false,
+  }
 });
 </script>
 

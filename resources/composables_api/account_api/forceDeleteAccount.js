@@ -1,28 +1,22 @@
 import { ref } from '@vue/reactivity';
 import axios from 'axios';
 
-
-const registerAccount = () => {
-    const account = ref({});
+const forceDeleteAccount = () => {
+    const deletedAccount = ref({});
     const loading = ref(false);
     const accountError = ref({});
-
-
-    const createAccount = async (form) => {
-        await axios.post('api/account/createAccount', form, {
+    const deleteAcc = async (id) => {
+        await axios.delete('api/account/forceDeleteAccount/' + id, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
                 Accept: 'application/json',
             }
         }).then((res) => {
-
-            account.value = res.data;
-
+            deletedAccount.value = res.data;
         }).catch((resErr) => {
             accountError.value = resErr;
         })
     }
-    return { account, accountError, createAccount }
+    return { deletedAccount, accountError, deleteAcc }
 }
-export default registerAccount;
-
+export default forceDeleteAccount;
