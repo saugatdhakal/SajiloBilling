@@ -40,6 +40,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     ->group(function () {
             Route::post('/supplierCreate','create');
             Route::get('/supplierDeatils','getSupplierDeatils');
+            Route::get('/getSupplierDeatils', 'getSupplierDeatils');
+            Route::get('/getSupplierEdit/{id}', 'edit');
+            Route::post('/supplierUpdate/{id}', 'update');
 
     });
 

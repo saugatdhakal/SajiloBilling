@@ -69,11 +69,12 @@
         <td>{{ data.contact_number }}</td>
         <td>{{ data.contact_person ? data.contact_person : "Empty" }}</td>
         <td>{{ data.email }}</td>
-        <td> <div class="btn-group">
+        <td>
+          <div class="btn-group">
             <router-link
               class="btn btn-primary"
               style="width: 100%"
-              :to="{ name: 'accountEdit', params: { id: data.id } }"
+              :to="{ name: 'supplierEdit', params: { id: data.id } }"
             >
               <i class="fa-regular fa-pen-to-square fa-lg"></i>
             </router-link>
@@ -87,14 +88,11 @@
             >
               <i class="fa-regular fa-eye fa-lg"></i>
             </button> -->
-            <button
-
-              style="width: 100%"
-              class="btn btn-danger"
-            >
+            <button style="width: 100%" class="btn btn-danger">
               <i class="fa-regular fa-user-xmark fa-lg"></i>
             </button>
-          </div></td>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>

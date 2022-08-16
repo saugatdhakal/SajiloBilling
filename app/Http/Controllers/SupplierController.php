@@ -22,14 +22,30 @@ class SupplierController extends Controller
         return response($response, 201);
     }
 
+    public function edit($id)
+    {
+        $account = DB::table('suppliers')->where('id', $id)->first();
+        return $account;
+    }
+
+    public function update(SuppierCreateUpdateRequest $request,$id)
+    {
+        $supplier = Supplier::find($id);
+        $supplier->supplierCreateUpdate($request);
+        $response = [
+            'status' => true,
+            'message' => 'Supplier Edited successfully',
+            'supplier' => $supplier
+        ];
+        return response($response, 201);
+    }
+
     public function getSupplierDeatils(Request $request)
     {
         //No of Columns
         $paginateNo = $request->paginate ?  $request->paginate : 10;
 
         $searchTerm = $request->search ? $request->search : '';
-
-
 
         $supplier = DB::table('suppliers')->when($searchTerm, function ($query) use ($searchTerm) {
             $term = "%$searchTerm%";

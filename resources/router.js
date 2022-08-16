@@ -92,20 +92,28 @@ const routes = [
     // Suppliers
 
     {
-        path:'/supplier',
-        name:'supplier',
+        path: '/supplier',
+        name: 'supplier',
         component: () => import('./views/suppliers/supplierDashboard.vue'),
-        meta:{
+        meta: {
             layout: AppLayout
         }
     },
     {
-        path:'/supplier/create',
-        name:'supplierCreate',
+        path: '/supplier/create',
+        name: 'supplierCreate',
         component: () => import('./views/suppliers/supplierCreate.vue'),
-        meta:{
+        meta: {
             layout: AppLayout
         }
+    },
+    {
+        path: '/supplier/edit/:id',
+        name: 'supplierEdit',
+        component: () => import('./views/suppliers/supplierEdit.vue'),
+        meta: {
+            layout: AppLayout
+        }, props: true
     }
 ];
 
