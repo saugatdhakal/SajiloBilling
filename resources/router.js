@@ -114,7 +114,15 @@ const routes = [
         meta: {
             layout: AppLayout
         }, props: true
-    }
+    },
+    {
+        path: '/supplier/softDelete',
+        name: 'supplierSoftDelete',
+        component: () => import('./views/suppliers/supplierSoftDelete.vue'),
+        meta: {
+            layout: AppLayout
+        }
+    },
 ];
 
 const router = createRouter({

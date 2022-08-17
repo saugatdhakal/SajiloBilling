@@ -5,7 +5,7 @@
     <div class="mt-2">
       <RouterLink
         class="btn btn-danger me-3 p-2"
-        :to="{ name: 'accountSoftDelete' }"
+        :to="{ name: 'supplierSoftDelete' }"
         ><i class="fa-solid fa-trash-can-list"></i> Trash Supplier</RouterLink
       >
       <RouterLink class="btn btn-dark me-3 p-2" :to="{ name: 'supplierCreate' }">

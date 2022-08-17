@@ -88,7 +88,11 @@
             >
               <i class="fa-regular fa-eye fa-lg"></i>
             </button> -->
-            <button style="width: 100%" class="btn btn-danger">
+            <button
+              style="width: 100%"
+              class="btn btn-danger"
+              @click="deleteHandler(data.id)"
+            >
               <i class="fa-regular fa-user-xmark fa-lg"></i>
             </button>
           </div>
@@ -110,7 +114,8 @@
 <script >
 import { appState } from "../../states/appState";
 import getSuppliersDetails from "../../composables_api/supplier_api/getSuppliersDetails";
-import { onMounted, ref, watch } from "@vue/runtime-core";
+import softDeleteSupplier from "../../composables_api/supplier_api/softDeleteSupplier";
+import { onMounted, ref, watch, inject } from "@vue/runtime-core";
 import LaravelVuePagination from "laravel-vue-pagination";
 
 export default {
@@ -120,14 +125,33 @@ export default {
   setup() {
     const appStates = appState();
     const { supplier, loading, getSuppliers } = getSuppliersDetails();
-
+    const { deletedSupplier, supplierError, softDelete } = softDeleteSupplier();
     const search = ref("");
     const pages = ref(1);
     const paginate = ref(10);
 
+    // sweet alert 2
+    const swal = inject("$swal");
+
     const pageData = (page = 1) => {
       pages = page;
       console.log(page);
+    };
+    const deleteHandler = (id) => {
+      swal({
+        title: "Are you sure?",
+        text: "Your Data will be temporarily deleted from the table",
+        showCancelButton: true,
+        confirmButtonColor: "#3084d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        buttonsStyling: true,
+      }).then(function (isConfirm) {
+        if (isConfirm.value === true) {
+          softDelete(id);
+        }
+      });
     };
     watch(paginate, () => {
       getSuppliers({
@@ -144,6 +168,14 @@ export default {
         search: search.value,
       });
     });
+    
+    watch(deletedSupplier, () => {
+      getSuppliers({
+        paginate: paginate.value,
+        page: pages.value,
+        search: search.value,
+      });
+    });
 
     onMounted(() => {
       getSuppliers({
@@ -152,7 +184,15 @@ export default {
         search: search.value,
       });
     });
-    return { supplier, appStates, pageData, paginate, search, loading };
+    return {
+      supplier,
+      appStates,
+      pageData,
+      paginate,
+      search,
+      loading,
+      deleteHandler,
+    };
   },
 };
 </script>
