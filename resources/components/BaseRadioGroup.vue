@@ -1,5 +1,6 @@
 <template>
   <div>
+    <label v-if="props.mainLabel">{{ props.mainLabel }}</label>
     <component
       v-for="option in props.options"
       :key="option.value"
@@ -7,7 +8,6 @@
       :class="{ horizontal: !vertical }"
     >
       <BaseRadio
-        
         :label="option.label"
         :value="option.value"
         :name="props.name"
@@ -36,6 +36,10 @@ const props = defineProps({
   vertical: {
     type: Boolean,
     default: false,
+  },
+  mainLabel: {
+    type: String,
+    required: false,
   },
 });
 </script>

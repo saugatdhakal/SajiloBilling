@@ -128,7 +128,7 @@ export default {
     const { deletedSupplier, supplierError, softDelete } = softDeleteSupplier();
     const search = ref("");
     const pages = ref(1);
-    const paginate = ref(10);
+    const paginate = ref(10); // 10 20 30 All
 
     // sweet alert 2
     const swal = inject("$swal");
@@ -168,7 +168,7 @@ export default {
         search: search.value,
       });
     });
-    
+
     watch(deletedSupplier, () => {
       getSuppliers({
         paginate: paginate.value,

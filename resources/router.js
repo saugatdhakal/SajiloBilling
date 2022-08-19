@@ -2,8 +2,6 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import Login from './views/login/login.vue';
 import Home from './views/home/home.vue';
 import AppLayout from './layouts/appLayout.vue';
-import { authState } from '../resources/states/auth';
-
 
 const routes = [
     {
@@ -123,6 +121,24 @@ const routes = [
             layout: AppLayout
         }
     },
+
+    // Product
+    {
+        path: '/product',
+        name: 'product',
+        component: () => import('./views/product/productDashboard.vue'),
+        meta: {
+            layout: AppLayout
+        }
+    },
+    {
+        path: '/product/create',
+        name: 'productCreate',
+        component: () => import('./views/product/productCreate.vue'),
+        meta: {
+            layout: AppLayout
+        }
+    }
 ];
 
 const router = createRouter({

@@ -180,7 +180,7 @@
               aria-controls="collapseLayouts"
             >
               <div class="sb-nav-link-icon">
-                <i class="fa-regular fa-file-user p-1 fa-lg"></i>
+                <i class="fa-regular fa-industry-windows p-1 fa-lg"></i>
               </div>
               Supplier
               <div class="sb-sidenav-collapse-arrow">
@@ -200,7 +200,7 @@
                   class="nav-link"
                   :to="{ name: 'supplier' }"
                 >
-                 Suppier Dashboard</router-link
+                  Suppier Dashboard</router-link
                 >
                 <router-link
                   :style="appStates.themeDark ? 'color:white' : 'color:black'"
@@ -212,9 +212,59 @@
                 <router-link
                   :style="appStates.themeDark ? 'color:white' : 'color:black'"
                   class="nav-link"
-                  :to="{ name: 'accountSoftDelete' }"
+                  :to="{ name: 'supplierSoftDelete' }"
                 >
-                  Trash Account</router-link
+                  Trash Supplier</router-link
+                >
+              </nav>
+            </div>
+
+            <!-- Suppliers -->
+            <a
+              :style="appStates.themeDark ? 'color:white' : 'color:black'"
+              class="nav-link collapsed"
+              href="#"
+              data-bs-toggle="collapse"
+              data-bs-target="#productBar"
+              aria-expanded="false"
+              aria-controls="collapseLayouts"
+            >
+              <div class="sb-nav-link-icon">
+                <i class="fa-regular fa-clothes-hanger p-1 fa-lg"></i>
+              </div>
+              Product
+              <div class="sb-sidenav-collapse-arrow">
+                <i class="fa-regular fa-angle-down"></i>
+              </div>
+            </a>
+
+            <div
+              class="collapse"
+              id="productBar"
+              aria-labelledby="headingOne"
+              data-bs-parent="#sidenavAccordion"
+            >
+              <nav class="sb-sidenav-menu-nested nav">
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'product' }"
+                >
+                  Product Dashboard</router-link
+                >
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'productCreate' }"
+                >
+                  Create Product</router-link
+                >
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'supplierSoftDelete' }"
+                >
+                  Trash Supplier</router-link
                 >
               </nav>
             </div>
