@@ -1,5 +1,8 @@
 <template>
-  <label v-if="props.label">{{ props.label }}<span style="color:red;" v-if="props.require"> *</span></label>
+  <label v-if="props.label"
+    >{{ props.label
+    }}<span style="color: red" v-if="props.require"> *</span></label
+  >
   <select
     :value="props.modelValue"
     v-bind="{
@@ -12,6 +15,10 @@
     }"
     class="form-select"
   >
+    <option v-if="props.placeholder" value="" disabled selected hidden>
+      {{ props.placeholder }}
+    </option>
+    <option v-if="props.optionEmpty" value="">{{ props.optionEmpty }}</option>
     <option
       v-for="option in options"
       :value="option"
@@ -37,10 +44,18 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  require:{
-    type:Boolean,
-    default:false
-  }
+  require: {
+    type: Boolean,
+    default: false,
+  },
+  placeholder: {
+    type: String,
+    define: "",
+  },
+  optionEmpty: {
+    type: String,
+    define: "",
+  },
 });
 </script>
 

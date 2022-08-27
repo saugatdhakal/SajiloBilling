@@ -78,16 +78,6 @@
             >
               <i class="fa-regular fa-pen-to-square fa-lg"></i>
             </router-link>
-            <!-- <button
-              style="width: 100%"
-              type="button"
-              @click="getDetails(account.id)"
-              class="btn btn-success"
-              data-bs-toggle="modal"
-              data-bs-target="#showAccountDetails"
-            >
-              <i class="fa-regular fa-eye fa-lg"></i>
-            </button> -->
             <button
               style="width: 100%"
               class="btn btn-danger"

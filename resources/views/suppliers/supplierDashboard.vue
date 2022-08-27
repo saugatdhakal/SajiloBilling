@@ -19,10 +19,6 @@
 <script setup>
 import SupplierTable from "./supplierDatatable.vue";
 
-
-
-
-
 </script>
 
 <style>

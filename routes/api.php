@@ -63,5 +63,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         ->group(function () {
             Route::post('/create', 'create');
             Route::get('/getProductCode','getProductCode');
+            Route::get('/dataTables', 'dataTables');
+
         });
+
 });
