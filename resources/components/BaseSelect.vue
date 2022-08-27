@@ -1,20 +1,25 @@
 <template>
-  <label v-if="props.label">{{ props.label }}</label>
+  <label v-if="props.label">{{ props.label }}<span style="color:red;" v-if="props.require"> *</span></label>
   <select
-  :value="props.modelValue"
-   v-bind="{
-    ...$attrs,
-    onChange:($event) =>{
-        {$emit('update:modelValue',$event.target.value)}
-    }
+    :value="props.modelValue"
+    v-bind="{
+      ...$attrs,
+      onChange: ($event) => {
+        {
+          $emit('update:modelValue', $event.target.value);
+        }
+      },
     }"
-   class="form-select">
+    class="form-select"
+  >
     <option
       v-for="option in options"
       :value="option"
       :key="option"
       :selected="option === modelValue"
-    >{{option}}</option>
+    >
+      {{ option }}
+    </option>
   </select>
 </template>
 
@@ -28,9 +33,13 @@ const props = defineProps({
     type: [String, Number],
     define: "",
   },
-  options:{
-    type:Array,
+  options: {
+    type: Array,
     required: true,
+  },
+  require:{
+    type:Boolean,
+    default:false
   }
 });
 </script>

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained();
             $table->enum('item_type',['SALES','SERVICE']);
             $table->enum('status',['ACTIVE','INACTIVE']);
+            $table->string('remark')->default(null);
             $table->softDeletes();
             $table->timestamps();
         });

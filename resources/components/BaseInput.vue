@@ -4,14 +4,15 @@
   <label :for="uuid">{{ props.label }} <span class="requireStar" v-if="props.require">*</span></label>
   <input
     :id="uuid"
-    aria-de
-    class="form-control"
+
+    class="form-control form-floating"
     v-bind="$attrs"
     :placeholder="props.label"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
     :aria-describedby="error ? `${uuid}-error` : null"
     :aria-invalid="error ? true : null"
+    :disabled="props.isDisable"
   />
   <p
     v-if="props.error"
@@ -43,6 +44,10 @@ const props = defineProps({
   require:{
     type:Boolean,
     default:false
+  },
+  isDisable:{
+    type:Boolean,
+    default:false
   }
 });
 </script>
@@ -56,4 +61,5 @@ label {
 .requireStar{
     color:red
 }
+
 </style>

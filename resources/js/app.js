@@ -6,12 +6,16 @@ import Toaster from "@meforma/vue-toaster";
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+
+
 const pinia = createPinia();
 const app = createApp(root);
 
 app.use(pinia);
 app.use(router);
 app.use(VueSweetalert2);
+
+
 app.use(Toaster, {
     position: 'top-right'
 }).provide('toast', app.config.globalProperties.$toast)
