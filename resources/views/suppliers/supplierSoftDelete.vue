@@ -173,16 +173,21 @@ export default {
     const { deletedSupplier, deleteSupp } = forceDeleteSupplier();
     const { restoreSupplier, restore } = restoreTrashSupplier();
     const search = ref("");
-    const pages = ref(1);
+    let pages = ref(1);
     const paginate = ref(10);
 
     // sweet alert 2
     const swal = inject("$swal");
 
     const pageData = (page = 1) => {
-      pages = page;
-      console.log(page);
+      pages.value = page;
+      getSuppliers({
+        paginate: paginate.value,
+        page: pages.value,
+        search: search.value,
+      });
     };
+
     const deleteHandler = (id) => {
       swal({
         title: "Are you sure?",

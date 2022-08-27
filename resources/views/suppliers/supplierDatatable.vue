@@ -134,8 +134,12 @@ export default {
     const swal = inject("$swal");
 
     const pageData = (page = 1) => {
-      pages = page;
-      console.log(page);
+      pages.value = page;
+      getSuppliers({
+        paginate: paginate.value,
+        page: pages.value,
+        search: search.value,
+      });
     };
     const deleteHandler = (id) => {
       swal({

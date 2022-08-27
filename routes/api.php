@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 
 //Public Routes
@@ -47,8 +49,19 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/getSoftDeleteSuppliers', 'getSoftDeleteSuppliers');
             Route::delete('/forceDeleteSupplier/{id}', 'forceDeleteSupplier');
             Route::post('/restoreSuppliers/{id}', 'restoreSupplier');
+        });
 
-            // restoreSupplier
-
+    Route::controller(CategoryController::class)
+        ->prefix('category')
+        ->group(function () {
+            Route::post('/create', 'create');
+            Route::get('/getCategories', 'getCategories');
+            Route::get('/getSearchCategories', 'getSearchCategories');
+        });
+    Route::controller(ProductController::class)
+        ->prefix('product')
+        ->group(function () {
+            Route::post('/create', 'create');
+            Route::get('/getProductCode','getProductCode');
         });
 });

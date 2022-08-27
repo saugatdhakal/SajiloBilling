@@ -19,7 +19,7 @@
       justify-content-center
     "
   >
-    <div class="d-flex flex-row justify-content-center ">
+    <div class="d-flex flex-row justify-content-center">
       <label for="pageNo" class="pe-2 align-middle fw-bold fs-4"
         >Per Page</label
       >
@@ -61,7 +61,7 @@
     </div>
   </div>
   <table
-    class="table  table-responsive"
+    class="table table-responsive"
     style="border-radius: 4px; width: 100%"
     :style="
       appStates.themeDark
