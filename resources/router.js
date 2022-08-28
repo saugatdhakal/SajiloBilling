@@ -138,6 +138,15 @@ const routes = [
         meta: {
             layout: AppLayout
         }
+    },
+    {
+        path: '/product/edit/:id',
+        name: 'productEdit',
+        component: () => import('./views/product/productEdit.vue'),
+        meta: {
+            layout: AppLayout
+        },
+        props: true
     }
 ];
 

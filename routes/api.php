@@ -64,7 +64,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::post('/create', 'create');
             Route::get('/getProductCode','getProductCode');
             Route::get('/dataTables', 'dataTables');
-
+            Route::get('/getProductDetails/{id}', 'getProductDetails');
+            Route::post('/update/{id}', 'update');
         });
 
 });

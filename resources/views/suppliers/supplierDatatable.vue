@@ -147,15 +147,7 @@ export default {
         }
       });
     };
-    watch(paginate, () => {
-      getSuppliers({
-        paginate: paginate.value,
-        page: pages.value,
-        search: search.value,
-      });
-    });
-    watch(search, () => {
-      console.log("clicked");
+    watch([paginate,search,deletedSupplier], () => {
       getSuppliers({
         paginate: paginate.value,
         page: pages.value,
@@ -163,13 +155,6 @@ export default {
       });
     });
 
-    watch(deletedSupplier, () => {
-      getSuppliers({
-        paginate: paginate.value,
-        page: pages.value,
-        search: search.value,
-      });
-    });
 
     onMounted(() => {
       getSuppliers({

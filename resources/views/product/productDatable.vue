@@ -75,7 +75,24 @@
         <td>{{ product.category }}</td>
         <td>{{ product.unit }}</td>
         <td>{{ product.item_type }}</td>
-        <td></td>
+        <td>
+            <div class="btn-group">
+            <router-link
+              class="btn btn-primary"
+              style="width: 100%"
+              :to="{ name: 'productEdit', params: { id: product.id } }"
+            >
+              <i class="fa-regular fa-pen-to-square fa-lg"></i>
+            </router-link>
+            <button
+              style="width: 100%"
+              class="btn btn-danger"
+              @click="deleteHandler(product.id)"
+            >
+              <i class="fa-regular fa-user-xmark fa-lg"></i>
+            </button>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>

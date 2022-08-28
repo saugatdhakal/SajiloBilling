@@ -19,7 +19,7 @@ const dataTable = () => {
         }).then((res) => {
             products.value = res.data;
             productLoading.value = false;
-            console.log(products.value);
+            // console.log(products.value);
         }).catch((resErr) => {
             productLoading.value = false;
             productError.value = resErr;
