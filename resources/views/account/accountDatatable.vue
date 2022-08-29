@@ -229,12 +229,7 @@ export default {
     //Function get the page number and pass to getAccounts(composables api)
     const pageData = (page = 1) => {
       paginationPage.value = page;
-      getAccounts({
-        page: paginationPage.value,
-        paginate: paginates.value,
-        search: search.value,
-        selectedType: selectType.value,
-      });
+      refreshTable();
     };
     const viewedAccounts = reactive({
       email: "",
@@ -266,14 +261,7 @@ export default {
       });
     }
     watch(deletedAccount, () => {
-      //Refresh page by calling api function
-      getAccounts({
-        page: paginationPage.value,
-        paginate: paginates.value,
-        search: search.value,
-        selectedType: selectType.value,
-      });
-
+      refreshTable();
       swal({
         position: "top-end",
         icon: "success",
@@ -283,40 +271,22 @@ export default {
       });
     });
     // watching Per Page select to be change
-    watch(paginates, () => {
-      getAccounts({
-        page: paginationPage.value,
-        paginate: paginates.value,
-        search: search.value,
-        selectedType: selectType.value,
-      });
-    });
-    //Input search
-    watch(search, () => {
-      getAccounts({
-        page: paginationPage.value,
-        paginate: paginates.value,
-        search: search.value,
-        selectedType: selectType.value,
-      });
-    });
-    watch(selectType, () => {
-      getAccounts({
-        page: paginationPage.value,
-        paginate: paginates.value,
-        search: search.value,
-        selectedType: selectType.value,
-      });
+    watch([paginates, search, selectType], () => {
+      refreshTable();
     });
 
     onMounted(() => {
+      refreshTable();
+    });
+
+    function refreshTable() {
       getAccounts({
         page: paginationPage.value,
         paginate: paginates.value,
         search: search.value,
         selectedType: selectType.value,
       });
-    });
+    }
 
     return {
       accounts,

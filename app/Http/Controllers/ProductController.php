@@ -36,6 +36,16 @@ class ProductController extends Controller
         ];
         return response($response, 201);
     }
+    public function softDelete($id){
+        $product = Product::find($id);
+        $product->delete();
+        $response = [
+            'status' => true,
+            'message' => 'Product soft deleted successfully',
+            'products' => $product
+        ];
+        return response($response, 201);
+    }
 
     public function getProductDetails($id)
     {

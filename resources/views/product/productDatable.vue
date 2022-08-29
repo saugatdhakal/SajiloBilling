@@ -1,5 +1,4 @@
 <template>
-
   <div
     class="
       mt-4
@@ -31,7 +30,7 @@
           style="width: 10rem; text-align: center; height: 35px"
           id="pageNo"
           name="pageSelect"
-            optionEmpty="All"
+          optionEmpty="All"
           :options="['SALES', 'SERVICE']"
         ></BaseSelect>
       </div>
@@ -76,7 +75,7 @@
         <td>{{ product.unit }}</td>
         <td>{{ product.item_type }}</td>
         <td>
-            <div class="btn-group">
+          <div class="btn-group">
             <router-link
               class="btn btn-primary"
               style="width: 100%"
@@ -112,6 +111,7 @@ import { onMounted, ref, watch, inject } from "@vue/runtime-core";
 import { appState } from "../../states/appState";
 import dataTable from "../../composables_api/product_api/dataTable";
 import BaseSelect from "../../components/BaseSelect.vue";
+import softDelete from "../../composables_api/product_api/softdelete";
 
 export default {
   components: {
@@ -120,39 +120,53 @@ export default {
   },
   setup() {
     const appStates = appState();
-    const { products, productLoading, productError, getProducts } = dataTable();
+    const { products, getProducts } = dataTable();
+    const { deleteProduct } = softDelete();
 
     const search = ref("");
     const pages = ref(1);
     const salesType = ref("");
     const paginate = ref(10); // 10 20 30 All
 
-    const pageData = (page = 1) => {
-      pages.value = page;
-      getProducts({
-        page: pages.value,
-        paginate: paginate.value,
-        search: search.value,
-        selectedType: salesType.value,
+    const swal = inject("$swal");
+
+    const deleteHandler = (id) => {
+      swal({
+        title: "Are you sure?",
+        text: "Your Data will be temporarily deleted from the table",
+        showCancelButton: true,
+        confirmButtonColor: "#3084d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        buttonsStyling: true,
+      }).then(function (isConfirm) {
+        if (isConfirm.value === true) {
+          deleteProduct(id);
+          refreshTable();
+        }
       });
     };
+    const pageData = (page = 1) => {
+      pages.value = page;
+      refreshTable();
+    };
     onMounted(() => {
-      getProducts({
-        page: pages.value,
-        paginate: paginate.value,
-        search: search.value,
-        selectedType: salesType.value,
-      });
+      refreshTable();
     });
 
     watch([search, pages, paginate, salesType], () => {
+      refreshTable();
+    });
+
+    function refreshTable() {
       getProducts({
         page: pages.value,
         paginate: paginate.value,
         search: search.value,
         selectedType: salesType.value,
       });
-    });
+    }
 
     return {
       appStates,
@@ -161,7 +175,8 @@ export default {
       salesType,
       pages,
       paginate,
-      pageData
+      pageData,
+      deleteHandler,
     };
   },
 };

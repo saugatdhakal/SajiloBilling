@@ -125,11 +125,7 @@ export default {
 
     const pageData = (page = 1) => {
       pages.value = page;
-      getSuppliers({
-        paginate: paginate.value,
-        page: pages.value,
-        search: search.value,
-      });
+      refreshTable();
     };
     const deleteHandler = (id) => {
       swal({
@@ -148,21 +144,21 @@ export default {
       });
     };
     watch([paginate,search,deletedSupplier], () => {
-      getSuppliers({
-        paginate: paginate.value,
-        page: pages.value,
-        search: search.value,
-      });
+        refreshTable();
     });
 
 
     onMounted(() => {
-      getSuppliers({
+        refreshTable();
+    });
+
+    function refreshTable(){
+        getSuppliers({
         paginate: paginate.value,
         page: pages.value,
         search: search.value,
       });
-    });
+    }
     return {
       supplier,
       appStates,

@@ -66,6 +66,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/dataTables', 'dataTables');
             Route::get('/getProductDetails/{id}', 'getProductDetails');
             Route::post('/update/{id}', 'update');
+            Route::delete('/softDelete/{id}','softDelete');
         });
 
 });
