@@ -147,6 +147,14 @@ const routes = [
             layout: AppLayout
         },
         props: true
+    },
+    {
+        path: '/product/softDelete',
+        name: 'productSoftDelete',
+        component: () => import('./views/product/productSoftDelete.vue'),
+        meta: {
+            layout: AppLayout
+        },
     }
 ];
 

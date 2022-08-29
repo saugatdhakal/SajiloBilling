@@ -38,6 +38,7 @@ class ProductController extends Controller
     }
     public function softDelete($id){
         $product = Product::find($id);
+        $product->status = 'INACTIVE';
         $product->delete();
         $response = [
             'status' => true,
@@ -46,7 +47,30 @@ class ProductController extends Controller
         ];
         return response($response, 201);
     }
+    public function restore($id)
+    {
 
+        $product = Product::onlyTrashed()->find($id);
+        $product->status = 'ACTIVE';
+        $product->restore();
+        $response = [
+            'status' => true,
+            'message' => 'product Successfully Restored ',
+            'product' => $product
+        ];
+        return response($response, 201);
+    }
+
+    public function forceDelete($id)
+    {
+        $product = Product::onlyTrashed()->find($id)->forceDelete();
+        $response = [
+            'status' => true,
+            'message' => 'product Successfully Deleted Permanently',
+            'product' => $product
+        ];
+        return response($response, 201);
+    }
     public function getProductDetails($id)
     {
         return DB::table('products')->where('id', $id)->first();

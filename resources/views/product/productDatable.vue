@@ -59,38 +59,37 @@
   >
     <thead>
       <tr>
-        <th>SN</th>
+        <th width="5%">SN</th>
+        <th width="15%">Type</th>
         <th>Name</th>
         <th>Category</th>
         <th>Units</th>
-        <th>Type</th>
         <th width="10%">Action</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(product, i) in products.data" :key="i">
         <td>{{ ++i }}</td>
+        <td>
+          <span
+            class="badge rounded-pill bg-info text-dark"
+            style="height: 30px; font-size: 17px"
+            :class="product.item_type == 'SALES' ? 'bg-info' : 'bg-warning'"
+            >{{ product.item_type == "SALES" ? "SALES" : "SERVICE" }}</span
+          >
+        </td>
         <td>{{ product.name }}</td>
         <td>{{ product.category }}</td>
         <td>{{ product.unit }}</td>
-        <td>{{ product.item_type }}</td>
         <td>
-          <div class="btn-group">
-            <router-link
-              class="btn btn-primary"
-              style="width: 100%"
-              :to="{ name: 'productEdit', params: { id: product.id } }"
-            >
-              <i class="fa-regular fa-pen-to-square fa-lg"></i>
-            </router-link>
-            <button
-              style="width: 100%"
-              class="btn btn-danger"
-              @click="deleteHandler(product.id)"
-            >
-              <i class="fa-regular fa-user-xmark fa-lg"></i>
-            </button>
-          </div>
+          <productTableButton
+            :softDeleteButton="props.softDelete"
+            :id="product.id"
+            @forceDeleteHandler="forceDeleteHandler"
+            @softDelete="deleteHandler"
+            @restoreHandler="restoreHandler"
+          >
+          </productTableButton>
         </td>
       </tr>
     </tbody>
@@ -112,16 +111,30 @@ import { appState } from "../../states/appState";
 import dataTable from "../../composables_api/product_api/dataTable";
 import BaseSelect from "../../components/BaseSelect.vue";
 import softDelete from "../../composables_api/product_api/softdelete";
+import productTableButton from "./productTableButton.vue";
+import restoreTrashProduct from "../../composables_api/product_api/restoreTrashProduct";
+import forceDeleteProduct from "../../composables_api/product_api/forceDeleteProduct";
 
 export default {
   components: {
     Pagination: LaravelVuePagination,
     BaseSelect,
+    productTableButton,
   },
-  setup() {
+  props: {
+    softDelete: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+  },
+  setup(props) {
+
     const appStates = appState();
     const { products, getProducts } = dataTable();
     const { deleteProduct } = softDelete();
+    const { restoredProduct, restore } = restoreTrashProduct();
+    const { deletedProduct, deletePro } = forceDeleteProduct();
 
     const search = ref("");
     const pages = ref(1);
@@ -155,9 +168,12 @@ export default {
       refreshTable();
     });
 
-    watch([search, pages, paginate, salesType], () => {
-      refreshTable();
-    });
+    watch(
+      [search, pages, paginate, salesType, restoredProduct, deletedProduct],
+      () => {
+        refreshTable();
+      }
+    );
 
     function refreshTable() {
       getProducts({
@@ -165,6 +181,40 @@ export default {
         paginate: paginate.value,
         search: search.value,
         selectedType: salesType.value,
+        deleteData: props.softDelete,
+      });
+    }
+
+    function restoreHandler(id) {
+      swal({
+        title: "Will you like to restore data?",
+        text: "Your Data will be restore",
+        showCancelButton: true,
+        confirmButtonColor: "#3084d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, restore it!",
+        cancelButtonText: "No, cancel!",
+        buttonsStyling: true,
+      }).then(function (isConfirm) {
+        if (isConfirm.value === true) {
+          restore(id);
+        }
+      });
+    }
+    function forceDeleteHandler(id) {
+      swal({
+        title: "Are you sure?",
+        text: "Your Data will be permanently deleted from the table",
+        showCancelButton: true,
+        confirmButtonColor: "#3084d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        buttonsStyling: true,
+      }).then(function (isConfirm) {
+        if (isConfirm.value === true) {
+          deletePro(id);
+        }
       });
     }
 
@@ -177,6 +227,9 @@ export default {
       paginate,
       pageData,
       deleteHandler,
+      restoreHandler,
+      forceDeleteHandler,
+      props,
     };
   },
 };

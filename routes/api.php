@@ -67,6 +67,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/getProductDetails/{id}', 'getProductDetails');
             Route::post('/update/{id}', 'update');
             Route::delete('/softDelete/{id}','softDelete');
+            Route::post('/restore/{id}', 'restore');
+            Route::delete('/forceDelete/{id}', 'forceDelete');
         });
 
 });

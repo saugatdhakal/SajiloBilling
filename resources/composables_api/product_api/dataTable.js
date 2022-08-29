@@ -7,10 +7,11 @@ const dataTable = () => {
     const productLoading = ref(true);
     const productError = ref({});
 
-    const getProducts = async ({page=1,paginate,search,selectedType=""}) => {
+    const getProducts = async ({page=1,paginate,search,selectedType="",deleteData=false}) => {
         await axios.get('api/product/dataTables?page='+page+
         '&paginate='+paginate+
         '&search='+search+
+        '&deleteData='+deleteData+
         '&selectedType='+selectedType, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
