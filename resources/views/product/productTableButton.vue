@@ -35,8 +35,6 @@
 </template>
 
 <script setup>
-import { required } from "../../components_js/validation";
-
 const props = defineProps({
   id: {
     type: [String, Number],

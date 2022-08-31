@@ -155,7 +155,24 @@ const routes = [
         meta: {
             layout: AppLayout
         },
-    }
+    },
+    // Purchase
+    {
+        path: '/purchase',
+        name: 'purchase',
+        component: () => import('./views/purchase/purchaseDashboard.vue'),
+        meta: {
+            layout: AppLayout
+        }
+    },
+    {
+        path: '/purchase/create',
+        name: 'purchaseCreate',
+        component: () => import('./views/purchase/purchaseCreate.vue'),
+        meta: {
+            layout: AppLayout
+        }
+    },
 ];
 
 const router = createRouter({

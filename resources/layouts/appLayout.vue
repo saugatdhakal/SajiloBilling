@@ -187,7 +187,6 @@
                 <i class="fa-regular fa-angle-down"></i>
               </div>
             </a>
-
             <div
               class="collapse"
               id="supplierBar"
@@ -219,7 +218,7 @@
               </nav>
             </div>
 
-            <!-- Suppliers -->
+            <!-- Product -->
             <a
               :style="appStates.themeDark ? 'color:white' : 'color:black'"
               class="nav-link collapsed"
@@ -237,7 +236,6 @@
                 <i class="fa-regular fa-angle-down"></i>
               </div>
             </a>
-
             <div
               class="collapse"
               id="productBar"
@@ -262,9 +260,58 @@
                 <router-link
                   :style="appStates.themeDark ? 'color:white' : 'color:black'"
                   class="nav-link"
-                  :to="{ name: 'supplierSoftDelete' }"
+                  :to="{ name: 'productSoftDelete' }"
                 >
-                  Trash Supplier</router-link
+                  Trash Product</router-link
+                >
+              </nav>
+            </div>
+
+            <!-- Product -->
+            <a
+              :style="appStates.themeDark ? 'color:white' : 'color:black'"
+              class="nav-link collapsed"
+              href="#"
+              data-bs-toggle="collapse"
+              data-bs-target="#purchaseBar"
+              aria-expanded="false"
+              aria-controls="collapseLayouts"
+            >
+              <div class="sb-nav-link-icon">
+                <i class="fa-regular fa-clothes-hanger p-1 fa-lg"></i>
+              </div>
+              Purchase
+              <div class="sb-sidenav-collapse-arrow">
+                <i class="fa-regular fa-angle-down"></i>
+              </div>
+            </a>
+            <div
+              class="collapse"
+              id="purchaseBar"
+              aria-labelledby="headingOne"
+              data-bs-parent="#sidenavAccordion"
+            >
+              <nav class="sb-sidenav-menu-nested nav">
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'purchase' }"
+                >
+                  Purchase Dashboard</router-link
+                >
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'purchaseCreate' }"
+                >
+                  Create Product</router-link
+                >
+                <router-link
+                  :style="appStates.themeDark ? 'color:white' : 'color:black'"
+                  class="nav-link"
+                  :to="{ name: 'productSoftDelete' }"
+                >
+                  Trash Product</router-link
                 >
               </nav>
             </div>

@@ -72,7 +72,6 @@ class Product extends Model
                         ->orWhere('categories.name', 'like', $term);
                 })->orderBy('products.created_at', 'DESC');
             })
-
             ->select(
                 'products.id',
                 'products.name as name',
