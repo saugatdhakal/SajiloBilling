@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SupplierController;
 
 //Public Routes
@@ -62,13 +63,19 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         ->prefix('product')
         ->group(function () {
             Route::post('/create', 'create');
-            Route::get('/getProductCode','getProductCode');
+            Route::get('/getProductCode', 'getProductCode');
             Route::get('/dataTables', 'dataTables');
             Route::get('/getProductDetails/{id}', 'getProductDetails');
             Route::post('/update/{id}', 'update');
-            Route::delete('/softDelete/{id}','softDelete');
+            Route::delete('/softDelete/{id}', 'softDelete');
             Route::post('/restore/{id}', 'restore');
             Route::delete('/forceDelete/{id}', 'forceDelete');
         });
 
+        Route::controller(PurchaseController::class)
+        ->prefix('purchase')
+        ->group(function () {
+            Route::get('/purchaseInvoice', 'purchaseInvoice');
+
+        });
 });

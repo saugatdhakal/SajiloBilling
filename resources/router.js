@@ -4,6 +4,7 @@ import Home from './views/home/home.vue';
 import AppLayout from './layouts/appLayout.vue';
 
 const routes = [
+    //Home
     {
         path: '/',
         name: 'home',
@@ -12,6 +13,7 @@ const routes = [
             layout: AppLayout
         }
     },
+    //Login
     {
         path: '/login',
         name: 'login',
@@ -57,7 +59,6 @@ const routes = [
         props: true
 
     },
-
     {
         path: '/account/create',
         name: 'accountCreate',
@@ -86,9 +87,7 @@ const routes = [
             layout: AppLayout
         },
     },
-
     // Suppliers
-
     {
         path: '/supplier',
         name: 'supplier',
@@ -121,7 +120,6 @@ const routes = [
             layout: AppLayout
         }
     },
-
     // Product
     {
         path: '/product',
