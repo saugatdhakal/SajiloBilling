@@ -3,6 +3,7 @@
     <input
       type="text"
       @focus="show()"
+      @input="$emit('update:modelValue', $event.target.value)"
       v-model="formData"
       :placeholder="props.placeholder"
     />
@@ -98,18 +99,22 @@
 <script setup>
 import {ref } from "@vue/reactivity";
 import useDate from "../components_js/useDate";
-
+const emit = defineEmits(['update:modelValue'])
 const formData = ref("");
 
 function selectDay(dayData) {
   formData.value = selectDate(dayData);
+  emit('update:modelValue', formData.value);
 }
 function yesterday() {
   formData.value = getYesterday();
+  emit('update:modelValue', formData.value);
 }
 
 function today() {
   formData.value = getToday();
+  emit('update:modelValue', formData.value);
+
 }
 
 const props = defineProps({
