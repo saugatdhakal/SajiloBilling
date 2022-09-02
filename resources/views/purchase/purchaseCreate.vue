@@ -1,12 +1,15 @@
 <template>
   <div class="row m-2">
     <div class="col-md-6 col-lg-6 col-sm-12">
-        <BaseCard>
+      <BaseCard>
         <BaseCardHeader label="Create Purchase"></BaseCardHeader>
-        <BaseInput v-model="form.invoiceNumbers" is-disable label="Invoice Number"></BaseInput>
-        <!-- <NepaliDatePicker calenderType="Nepali"/> -->
-        </BaseCard>
-
+        <BaseInput
+          v-model="form.invoiceNumbers"
+          is-disable
+          label="Invoice Number"
+        ></BaseInput>
+        <BaseInput type="text" id="nepali-datepicker"></BaseInput>
+      </BaseCard>
     </div>
   </div>
 </template>
@@ -31,18 +34,14 @@ import BaseInput from "../../components/BaseInput.vue";
 
 const { getInvoiceNumber, invoiceNumber } = purchaseInvoice();
 const form = reactive({
-    invoiceNumbers:invoiceNumber,
-}
-)
+  invoiceNumbers: invoiceNumber,
+});
 
-
-onMounted(()=>{
-    getInvoiceNumber();
-})
-
-
-
+onMounted(() => {
+  getInvoiceNumber();
+});
 </script>
 
 <style>
 </style>
+
