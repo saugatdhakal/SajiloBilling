@@ -8,12 +8,7 @@
           is-disable
           label="Invoice Number"
         ></BaseInput>
-        <!-- <BaseInput
-        type="date"
-          v-model="form.invoiceNumbers"
-
-          label="Invoice Number"
-        ></BaseInput> -->
+        <BaseInput type="text" id="nepali-datepicker"></BaseInput>
       </BaseCard>
     </div>
   </div>
@@ -49,3 +44,4 @@ onMounted(() => {
 
 <style>
 </style>
+
