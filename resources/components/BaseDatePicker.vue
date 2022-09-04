@@ -1,20 +1,26 @@
 <template>
-  <div class="datepicker">
+  <div class="datepicker" @click.stop>
     <input
       type="text"
       @focus="show()"
-      @input="$emit('update:modelValue', $event.target.value)"
+      class="form-control"
+      v-bind="$attrs"
+
       v-model="formData"
       :placeholder="props.placeholder"
     />
-    <div v-if="visible" :class="['calendar', { show: visible }]">
+    <div
+      v-if="visible"
+      :class="['calendar', { show: visible }]"
+      @click.self="closeCalendar"
+    >
       <div class="calendar__header">
         <div class="calendar__year">{{ formattedYear }}</div>
         <div class="calendar__date">{{ formattedDate }}</div>
       </div>
       <div class="calendar__body">
         <div class="calender_top_select">
-          <button class="calendar__month__prev" @click="prev">
+          <button type="button" class="calendar__month__prev" @click="prev">
             <b>></b>
           </button>
           <select
@@ -51,7 +57,7 @@
               "
             ></option>
           </select>
-          <button class="calendar__month__next" @click="next">
+          <button type="button" class="calendar__month__next" @click="next">
             <b>></b>
           </button>
         </div>
@@ -88,8 +94,9 @@
         </div>
       </div>
       <div class="calendar__footer">
-
-        <button v-if="props.calenderType === 'English'" @click="yesterday">{{ formattedYesterdayText }}</button>
+        <button v-if="props.calenderType === 'English'" @click="yesterday">
+          {{ formattedYesterdayText }}
+        </button>
         <button @click="today">{{ formattedTodayText }}</button>
       </div>
     </div>
@@ -97,24 +104,25 @@
 </template>
 
 <script setup>
-import {ref } from "@vue/reactivity";
+import { ref } from "@vue/reactivity";
 import useDate from "../components_js/useDate";
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(["update:modelValue"]);
 const formData = ref("");
-
 function selectDay(dayData) {
   formData.value = selectDate(dayData);
-  emit('update:modelValue', formData.value);
+  emit("update:modelValue", formData.value);
 }
 function yesterday() {
   formData.value = getYesterday();
-  emit('update:modelValue', formData.value);
+  emit("update:modelValue", formData.value);
 }
-
+function closeCalendar() {
+  console.log("closeCalendar");
+  visible.value = false;
+}
 function today() {
   formData.value = getToday();
-  emit('update:modelValue', formData.value);
-
+  emit("update:modelValue", formData.value);
 }
 
 const props = defineProps({
@@ -205,14 +213,14 @@ const {
   background-color: rgb(247, 248, 248);
   /* visibility: hidden; */
   /* opacity: 0;    */
-  /* transform: translateY(-50%) translateX(50%); */
-  /* transition: all 0.3s linear; */
 }
-/* .calendar.show {
+ .calendar.show {
   visibility: visible;
   opacity: 1;
-  /* transform: translateY(0px); */
-/* } */
+  transform: translateY(0px);
+  /* transform: translateY(-50%) translateX(50%); */
+ /* transition: all 0.3s linear;*/
+ }
 .date_select {
   border-radius: 5px;
   padding: 5px 5px;
@@ -290,6 +298,7 @@ const {
 .calendar__weeks,
 .calendar__days {
   display: grid;
+  color: black;
   grid-template-columns: repeat(7, 1fr);
 }
 .calendar__days {

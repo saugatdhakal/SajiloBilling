@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class SupplierController extends Controller
 {
+    public function getSuppliersNames(Request $request)
+    {
+        $searchValue = trim($request->q) ?  trim($request->q) : "";
+        $value = "%$searchValue%";
+        return DB::table('suppliers')->where('name', 'LIKE', $value)->skip(0)
+            ->take(300)->get(['id', 'name']);
+    }
     public function create(SuppierCreateUpdateRequest $request)
     {
         $supplier = new Supplier();

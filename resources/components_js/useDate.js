@@ -112,8 +112,9 @@ export default function useDate(props) {
     const visible = ref(false);
 
     function show() {
+
         visible.value = true;
-        setTimeout(() => document.addEventListener("click", hide), 200);
+        document.addEventListener("click", hide);
     }
 
     function hide() {

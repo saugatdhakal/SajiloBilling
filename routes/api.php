@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/getSoftDeleteSuppliers', 'getSoftDeleteSuppliers');
             Route::delete('/forceDeleteSupplier/{id}', 'forceDeleteSupplier');
             Route::post('/restoreSuppliers/{id}', 'restoreSupplier');
+            Route::get('/getSuppliersNames','getSuppliersNames');
         });
 
     Route::controller(CategoryController::class)
@@ -76,6 +77,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         ->prefix('purchase')
         ->group(function () {
             Route::get('/purchaseInvoice', 'purchaseInvoice');
-
+            Route::post('/create', 'create');
         });
 });
