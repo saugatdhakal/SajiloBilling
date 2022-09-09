@@ -2,16 +2,16 @@
   <div class="row p-3">
     <div class="col-md-12 col-lg-6 col-sm-12">
       <form @submit.prevent="handleSubmit">
-        <BaseCard>
-          <BaseCardHeader label="Create Product"></BaseCardHeader>
+        <base-card>
+          <base-card-header label="Create Product"></base-card-header>
 
-          <BaseRadioGroup
+          <base-radio-group
             name="sf"
             class="mb-3"
             mainLabel="Sales Type :"
             v-model="form.saleType"
             :options="itemType"
-          ></BaseRadioGroup>
+          ></base-radio-group>
           <span
             style="color: red; margin-bottom: 5px"
             v-for="error in v$.saleType.$errors"
@@ -20,14 +20,14 @@
             {{ error.$property.toUpperCase() }} {{ error.$message }}</span
           >
 
-          <BaseInput
-           isDisable
+          <base-input
+            isDisable
             v-model="form.productCode"
             class="mb-3"
             disabled
             :require="true"
             label="Product Code"
-          ></BaseInput>
+          ></base-input>
           <span
             style="color: red; margin-bottom: 5px"
             v-for="error in v$.productCode.$errors"
@@ -36,13 +36,13 @@
             {{ error.$message }}</span
           >
 
-          <BaseInput
+          <base-input
             class="mb-3"
             autofocus
             :require="true"
             v-model="form.name"
             label="Name"
-          ></BaseInput>
+          ></base-input>
           <span
             style="color: red; margin-bottom: 5px"
             v-for="error in v$.name.$errors"
@@ -87,13 +87,13 @@
           >
             {{ error.$message }}</span
           >
-          <BaseSelect
+          <base-select
             v-model="form.unit"
             placeholder="select unit"
             label="Unit"
             :require="true"
             :options="['pcs', 'meter', 'bundle']"
-          ></BaseSelect>
+          ></base-select>
           <span
             style="color: red; margin-bottom: 5px"
             v-for="error in v$.unit.$errors"
@@ -102,12 +102,12 @@
             {{ error.$message }}</span
           >
 
-          <BaseTextArea
+          <base-text-area
             v-model="form.remark"
             row="4"
             class="mb-3"
             label="Remark"
-          ></BaseTextArea>
+          ></base-text-area>
           <span
             style="color: red; margin-bottom: 5px"
             v-for="error in v$.remark.$errors"
@@ -116,18 +116,18 @@
             {{ error.$message }}</span
           >
 
-          <BaseButton class="mt-2" type="submit">
+          <base-button class="mt-2" type="submit">
             <span v-if="!productLoading"
               ><div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div></span
             >
-            <span v-else>Create Supplier</span></BaseButton
+            <span v-else>Create Supplier</span></base-button
           >
           <RouterLink class="btn btn-danger mt-2" :to="{ name: 'product' }"
             >Cancle
           </RouterLink>
-        </BaseCard>
+        </base-card>
       </form>
     </div>
     <div v-if="cetegoryBool" class="col-md-4 col-lg-4 col-sm-12 categoryCreate">
@@ -140,22 +140,15 @@
 </template>
 
 <script setup>
-import BaseCard from "../../components/BaseCard.vue";
-import BaseButton from "../../components/BaseButton.vue";
-import BaseInput from "../../components/BaseInput.vue";
-import BaseSelect from "../../components/BaseSelect.vue";
-import categoryCreate from "../category/categoryCreate.vue";
-import BaseRadioGroup from "../../components/BaseRadioGroup.vue";
 import { reactive, ref } from "@vue/reactivity";
 import useVuelidate from "@vuelidate/core";
 import VueMultiselect from "vue-multiselect";
+import categoryCreate from "../category/categoryCreate.vue";
 import registerProduct from "../../composables_api/product_api/productCreate";
 import { required } from "@vuelidate/validators";
 import CategoriesList from "../../composables_api/category_api/getCategories";
 import { onMounted, watch, inject } from "@vue/runtime-core";
-import BaseTextArea from "../../components/BaseTextArea.vue";
-import BaseCardHeader from "../../components/BaseCardHeader.vue";
-import getProductCode from "../../composables_api/product_api/getProductCode"
+import getProductCode from "../../composables_api/product_api/getProductCode";
 import router from "../../router";
 
 const itemType = [
@@ -167,8 +160,8 @@ const { category, loading, getAscynSearch } = CategoriesList();
 const { product, loading: productLoading, createProduct } = registerProduct();
 const { productCode, pCodeLoding, generateCode } = getProductCode();
 
-onMounted(()=>{
-    generateCode();
+onMounted(() => {
+  generateCode();
 });
 const toast = inject("toast");
 
@@ -219,9 +212,9 @@ async function handleSubmit() {
   form.categoryId = form.category.id;
   createProduct(form);
 }
-watch(productCode,()=>{
-    form.productCode = productCode;
-})
+watch(productCode, () => {
+  form.productCode = productCode;
+});
 watch(product, () => {
   router.push({ name: "product" });
 });

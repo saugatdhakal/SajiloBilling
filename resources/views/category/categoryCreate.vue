@@ -20,9 +20,8 @@ import BaseInput from "../../components/BaseInput.vue";
 import { reactive } from "@vue/reactivity";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
-import { inject, watch, defineEmits } from "vue";
+import { inject, watch } from "vue";
 import registerCategory from "../../composables_api/category_api/createCategory";
-
 
 const props = defineProps({
   visible: Boolean,

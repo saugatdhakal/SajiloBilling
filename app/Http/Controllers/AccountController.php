@@ -100,13 +100,6 @@ class AccountController extends Controller
 
     public function softDeleteAccount($id)
     {
-        if (!$id) {
-            $response = [
-                'status' => false,
-                'message' => 'account id is required',
-            ];
-            return response($response, 400);
-        }
         $account = Account::find($id);
         $account->delete();
         $response = [

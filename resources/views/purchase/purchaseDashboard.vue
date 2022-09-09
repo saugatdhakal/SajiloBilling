@@ -1,23 +1,13 @@
 <template>
 
-<BaseDatePicker calenderType="English" v-model="date" />
+<purchase-datatable></purchase-datatable>
+
 </template>
 
-<script>
-import { ref } from '@vue/reactivity';
-import BaseDatePicker from '../../components/BaseDatePicker.vue';
-export default {
-    components:{
-        BaseDatePicker
-    },
-setup(){
-const date = ref('');
-return {date}
-}
+<script setup>
+import purchaseDatatable from './purchaseDatatable.vue';
 
-}
 </script>
 
 <style>
-
 </style>

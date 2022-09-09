@@ -14,7 +14,10 @@ class PurchaseController extends Controller
       return getPurchaseInvoice(); //number
     }
 
-    public function create(Request $request){
+    public function getPurchaseDetails($id){
+       return DB::table('purchases')->find($id);
+    }
+    public function create(PurchaseCreateUpdate $request){
         $purchase = new Purchase();
         DB::transaction(function()use($request,$purchase){
         $purchase->createUpdate($request);//Model
@@ -22,10 +25,26 @@ class PurchaseController extends Controller
         });
         $response= [
             'status' =>true,
-            'message'=>'Purchase created successfully',
+            'message'=>'Purchase created Successfully',
             'purchase'=>$purchase
         ];
         return $response;
+    }
+
+    public function update(PurchaseCreateUpdate $request,$id){
+        $purchase = Purchase::find($id);
+        $purchase->createUpdate($request);//Model
+        $response= [
+            'status' =>true,
+            'message'=>'Purchase Updated Successfully',
+            'purchase'=>$purchase
+        ];
+        return $response;
+
+    }
+
+    public function getDatatable(Request $request){
+       return Purchase::datatable($request);
     }
 
 }

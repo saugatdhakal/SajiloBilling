@@ -171,6 +171,15 @@ const routes = [
             layout: AppLayout
         }
     },
+    {
+        path: '/purchase/edit/:id',
+        name: 'purchaseEdit',
+        component: () => import('./views/purchase/purchaseEdit.vue'),
+        meta: {
+            layout: AppLayout
+        },
+        props: true
+    },
 ];
 
 const router = createRouter({

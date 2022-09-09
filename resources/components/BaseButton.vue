@@ -10,6 +10,7 @@
 
 <script setup>
 import { appState } from "../states/appState";
+
 const appStates = appState();
 </script>
 

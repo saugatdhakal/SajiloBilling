@@ -2,25 +2,25 @@
   <div class="row m-2">
     <div class="col-md-6 col-lg-6 col-sm-12">
       <form @submit.prevent="submit">
-        <BaseCard>
+        <base-select>
           <h3 class="mb-3 text-center border border-2 rounded p-2">
             Create Supplier
           </h3>
-          <BaseInput
+          <base-input
             class="mb-2"
             v-model="form.name"
             label="Name"
             :require="true"
-          ></BaseInput>
+          ></base-input>
           <span class="errorMsg" v-for="error in v$.name.$errors" :key="error">
             {{ error.$property.toUpperCase() }} {{ error.$message }}</span
           >
-          <BaseInput
+          <base-input
             :require="true"
             class="mb-2"
             v-model="form.address"
             label="Address"
-          ></BaseInput>
+          ></base-input>
           <span
             class="errorMsg"
             v-for="error in v$.address.$errors"
@@ -28,14 +28,14 @@
           >
             {{ error.$property.toUpperCase() }} {{ error.$message }}</span
           >
-          <BaseInput
+          <base-input
             :require="true"
             type="number"
             min="0"
             class="mb-2"
             v-model="form.contact_number"
             label="Contact Number"
-          ></BaseInput>
+          ></base-input>
           <span
             class="errorMsg"
             v-for="error in v$.contact_number.$errors"
@@ -43,11 +43,11 @@
           >
             {{ error.$property.toUpperCase() }} {{ error.$message }}</span
           >
-          <BaseInput
+          <base-input
             class="mb-2"
             v-model="form.contact_person"
             label="Contact Person"
-          ></BaseInput>
+          ></base-input>
           <span
             class="errorMsg"
             v-for="error in v$.contact_person.$errors"
@@ -55,12 +55,12 @@
           >
             {{ error.$property.toUpperCase() }} {{ error.$message }}</span
           >
-          <BaseInput
+          <base-input
             class="mb-2"
             v-model="form.email"
             :require="true"
             label="Email"
-          ></BaseInput>
+          ></base-input>
           <span class="errorMsg" v-for="error in v$.email.$errors" :key="error">
             {{ error.$property.toUpperCase() }} {{ error.$message }}</span
           >
@@ -91,16 +91,14 @@
           <RouterLink class="btn btn-danger mt-2 fs-5 fw-bold" :to="{name:'supplier'}"
             >Cancle
           </RouterLink>
-        </BaseCard>
+        </base-select>
       </form>
     </div>
   </div>
 </template>
 
 <script setup>
-import BaseCard from "../../components/BaseCard.vue";
-import BaseInput from "../../components/BaseInput.vue";
-import BaseButton from "../../components/BaseButton.vue";
+
 import registerSupplier from "../../composables_api/supplier_api/createSupplier";
 import { reactive } from "@vue/reactivity";
 import useVuelidate from "@vuelidate/core";
