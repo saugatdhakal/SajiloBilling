@@ -731,9 +731,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .svgContainer {
-  height: 400vh;
+  height: 100vh;
   text-align: center;
 }
 </style>

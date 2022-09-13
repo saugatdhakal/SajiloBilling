@@ -267,7 +267,7 @@
               </nav>
             </div>
 
-            <!-- Product -->
+            <!-- Purchase -->
             <a
               :style="appStates.themeDark ? 'color:white' : 'color:black'"
               class="nav-link collapsed"
@@ -309,7 +309,7 @@
                 <router-link
                   :style="appStates.themeDark ? 'color:white' : 'color:black'"
                   class="nav-link"
-                  :to="{ name: 'productSoftDelete' }"
+                  :to="{ name: 'purchaseSoftDelete' }"
                 >
                   Trash Product</router-link
                 >

@@ -12,11 +12,13 @@
               type="button"
               @click="$emit('viewPurchase', props.id)"
               class="btn btn-success"
+              data-bs-toggle="modal"
+              data-bs-target="#showPurchaseDetails"
             >
               <i class="fa-regular fa-eye fa-lg"></i>
             </button>
     <button
-      style=""
+      type="button"
       class="btn btn-danger"
       @click="$emit('softDelete', props.id)"
     >
@@ -26,6 +28,7 @@
   <div v-else>
     <div class="btn-group">
       <button
+      type="button"
         style="width: 100%"
         class="btn btn-success"
         @click="$emit('restoreHandler', props.id)"
@@ -34,7 +37,7 @@
       </button>
 
 
-      <button style="width: 100%" class="btn btn-danger"
+      <button  type="button" style="width: 100%" class="btn btn-danger"
       @click="$emit('forceDeleteHandler', props.id)"
       >
         <i class="fa-regular fa-user-xmark fa-lg"></i>

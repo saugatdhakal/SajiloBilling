@@ -80,14 +80,14 @@
           >
             {{ error.$property.toUpperCase() }} {{ error.$message }}</span
           >
-          <BaseButton type="submit" class="mt-3 fw-bold fs-5">
+          <base-button type="submit" class="mt-3 fw-bold fs-5">
             <span v-if="!loading"
               ><div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div></span
             >
             <span v-else>Update Supplier</span>
-          </BaseButton>
+          </base-button>
           <RouterLink
             class="btn btn-danger mt-2 fs-5 fw-bold"
             :to="{ name: 'supplier' }"

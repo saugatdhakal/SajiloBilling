@@ -180,6 +180,15 @@ const routes = [
         },
         props: true
     },
+    {
+        path: '/purchase/softdelete',
+        name: 'purchaseSoftDelete',
+        component: () => import('./views/purchase/purchaseSoftDelete.vue'),
+        meta: {
+            layout: AppLayout
+        }
+
+    },
 ];
 
 const router = createRouter({

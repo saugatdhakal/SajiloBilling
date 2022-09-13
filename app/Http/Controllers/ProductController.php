@@ -55,7 +55,7 @@ class ProductController extends Controller
         $product->restore();
         $response = [
             'status' => true,
-            'message' => 'product Successfully Restored ',
+            'message' => 'Product Successfully Restored ',
             'product' => $product
         ];
         return response($response, 201);

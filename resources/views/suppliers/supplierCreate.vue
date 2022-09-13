@@ -2,7 +2,7 @@
   <div class="row m-2">
     <div class="col-md-6 col-lg-6 col-sm-12">
       <form @submit.prevent="submit">
-        <base-select>
+        <base-card>
           <h3 class="mb-3 text-center border border-2 rounded p-2">
             Create Supplier
           </h3>
@@ -80,18 +80,18 @@
           >
             {{ error.$property.toUpperCase() }} {{ error.$message }}</span
           >
-          <BaseButton type="submit" class="mt-3 fw-bold fs-5">
+          <base-button type="submit" class="mt-3 fw-bold fs-5">
             <span v-if="!loading"
               ><div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div></span
             >
             <span v-else>Create Supplier</span>
-          </BaseButton>
+          </base-button>
           <RouterLink class="btn btn-danger mt-2 fs-5 fw-bold" :to="{name:'supplier'}"
             >Cancle
           </RouterLink>
-        </base-select>
+        </base-card>
       </form>
     </div>
   </div>

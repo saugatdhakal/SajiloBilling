@@ -6,7 +6,7 @@
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
-    v-show="props.modelToggle"
+
   >
     <div class="modal-dialog">
       <div class="modal-content">
@@ -56,9 +56,6 @@ const props = defineProps({
   modelHeader: {
     type: String,
     define: "",
-  },
-  modelToggle: {
-
   },
   footerButton: {
     type: Boolean,
