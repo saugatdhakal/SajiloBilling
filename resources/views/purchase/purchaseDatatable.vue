@@ -506,7 +506,7 @@
         justify-content-center
       "
     >
-      <div class="d-flex flex-row justify-content-center">
+      <div class="d-flex flex-row justify-content-center" v-once>
         <label for="pageNo" class="pe-2 align-middle fw-bold fs-4"
           >Per Page</label
         >
@@ -518,9 +518,10 @@
           :options="['10', '20', '30', '40', '50', '-1']"
         ></base-select>
 
-        <div class="mx-4 d-flex flex-row justify-content-center">
+        <div class="mx-4 d-flex flex-row justify-content-center" v-once>
           <span class="fw-bold fs-4 pe-2">Filter By Type</span>
           <base-select
+           v-once
             placeholder="Select Type"
             v-model="purchaseStatus"
             style="width: 10rem; text-align: center; height: 35px"
@@ -537,6 +538,7 @@
           <i class="fa-solid fa-magnifying-glass"></i>
         </label>
         <input
+
           v-model.lazy="search"
           type="search"
           class="form-control mb-2"
@@ -712,7 +714,8 @@ export default {
       });
     };
 
-    const viewModel = (id) => {
+    const viewModel = async(id) => {
+
       requestPurchaseData(id);
       modelToggle.value = true;
     };
