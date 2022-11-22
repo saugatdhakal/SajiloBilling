@@ -1,8 +1,14 @@
 <template>
   <div class="btn-group" v-if="!props.softDeleteButton">
     <router-link
+      class="btn btn-light"
+      v-if="props.status =='RUNNING'"
+      :to="{ name: 'purchaseItems', params: { id: props.id}}"
+    >
+        <i class="fa-light fa-file-invoice fa-lg"></i>
+    </router-link>
+    <router-link
       class="btn btn-primary"
-      style=""
       :to="{ name: 'purchaseEdit', params: { id: props.id } }"
     >
       <i class="fa-regular fa-pen-to-square fa-lg"></i>
@@ -57,6 +63,14 @@ const props = defineProps({
     required: false,
     default: false,
   },
+  status:{
+    type: [String],
+    required:true,
+  },
+  purchase:{
+    type:[Object],
+    required:true
+  }
 });
 </script>
 

@@ -11,6 +11,10 @@ class PurchaseController extends Controller
 {
     public function purchaseInvoice()
     {
+        $name ="saugat";
+
+        $firstName = $$name;
+
         return getPurchaseInvoice(); //number
     }
     public function viewPurchaseDetails($id)
@@ -65,7 +69,6 @@ class PurchaseController extends Controller
     public function softDelete($id)
     {
         $purchase = Purchase::find($id);
-
         $purchase->delete();
         $response = [
             'status' => true,

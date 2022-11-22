@@ -112,13 +112,22 @@
 </template>
 
 <script setup>
-import purchaseInvoice from "../../composables_api/purchase_api/purchaseInvoice";
+import { reactive } from "@vue/reactivity";
+import { inject, onMounted, watch } from "vue";
+/**
+ * *VueMultiselect
+ **/
 import VueMultiselect from "vue-multiselect";
-import { reactive, ref } from "@vue/reactivity";
+/**
+ * *Validation
+ **/
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength } from "@vuelidate/validators";
-import { inject, onMounted, watch } from "vue";
 import router from "../../router";
+/**
+ * *Api
+ **/
+import purchaseInvoice from "../../composables_api/purchase_api/purchaseInvoice";
 import getSupplierNames from "../../composables_api/supplier_api/getSuppliersNames";
 import purchaseCreate from "../../composables_api/purchase_api/purchaseCreate";
 
@@ -162,7 +171,7 @@ async function submitHandler() {
   createPurchase(form);
 }
 
-function asyncFind(searchValue) {
+const asyncFind=(searchValue)=> {
   loading.value = true;
   if (!searchValue) {
     loading.value = false;
@@ -171,7 +180,7 @@ function asyncFind(searchValue) {
   getNames(searchValue);
 }
 watch(purchase, () => {
-  router.push({ name: "purchase" });
+  router.push({ path:'/purchase/items/'+purchase.id });
 });
 
 onMounted(() => {

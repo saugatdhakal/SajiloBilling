@@ -2,7 +2,8 @@
   <div
     class="modal fade"
     :id="modelId"
-    :data-bs-backdrop="props.dropBack? null:'static'"
+    v-bind="$attrs"
+    :data-bs-backdrop="props.dropBack? '':'static'"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
@@ -10,7 +11,7 @@
   >
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header text-black">
           <h5
             v-if="props.modelHeader"
             class="modal-title"
@@ -27,7 +28,7 @@
           ></button>
         </div>
         <form>
-          <div class="modal-body">
+          <div class="modal-body text-black">
             <slot name="modalBody"> </slot>
           </div>
           <div class="modal-footer" v-if="props.footerButton">

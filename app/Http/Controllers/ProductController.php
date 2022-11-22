@@ -14,6 +14,18 @@ class ProductController extends Controller
         return Product::generateUniqueNumber();
     }
 
+    public function getProductNameId(Request $request){
+
+        $searchValue = trim($request->q) ?  trim($request->q) : "";
+        $value="%$searchValue%";
+        return DB::table('products')
+        ->where('name', 'LIKE', $value)
+        ->whereNull('deleted_at')
+        ->skip(0)
+        ->take(60)
+        ->get(['id', 'name']);
+    }
+
     public function create(ProductCreateUpdateRequest $request)
     {
         $product = new Product();

@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::delete('/softDelete/{id}', 'softDelete');
             Route::post('/restore/{id}', 'restore');
             Route::delete('/forceDelete/{id}', 'forceDelete');
+            Route::get('/getProductNameId', 'getProductNameId');
         });
 
         Route::controller(PurchaseController::class)

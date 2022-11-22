@@ -582,6 +582,8 @@
               @viewPurchase="viewModel"
               @forceDeleteHandler="forceDeleteHandler"
               :id="data.id"
+              :status="data.status"
+              :purchase="data"
             ></purchaseTableButton>
           </td>
         </tr>

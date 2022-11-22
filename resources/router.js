@@ -189,10 +189,19 @@ const routes = [
         }
 
     },
+    {
+        path: '/purchase/item/:id',
+        name: 'purchaseItems',
+        component: () => import('./views/purchase_item/purchaseItem.vue'),
+        meta: {
+            layout: AppLayout
+        }, props: true
+    },
+
+
 ];
 
 const router = createRouter({
-
     history: createWebHashHistory(),
     routes
 });
@@ -237,3 +246,4 @@ router.beforeEach(async (to) => {
 });
 
 export default router;
+    
